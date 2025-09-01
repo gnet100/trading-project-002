@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 חיבור Interactive Brokers - Trading Project 002</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .header h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .coming-soon {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 50px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .coming-soon-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            color: #ff9800;
+        }
+        
+        .coming-soon h2 {
+            color: #1e3c72;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        
+        .coming-soon p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .connection-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            border-right: 5px solid #ff9800;
+        }
+        
+        .status-card.pending {
+            border-right-color: #ff9800;
+        }
+        
+        .status-card.ready {
+            border-right-color: #4caf50;
+        }
+        
+        .status-card.critical {
+            border-right-color: #f44336;
+        }
+        
+        .status-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .status-card h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .status-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .requirements {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .requirements h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .req-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-right: 4px solid #ff9800;
+        }
+        
+        .req-card h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        
+        .req-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 5px 0;
+        }
+        
+        .req-checkbox {
+            margin-left: 10px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+        
+        .req-checkbox.pending::after {
+            content: "⏳";
+            font-size: 12px;
+        }
+        
+        .req-text {
+            color: #666;
+            flex: 1;
+        }
+        
+        .architecture {
+            background: linear-gradient(120deg, #e3f2fd 0%, #f1f8e9 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .architecture h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .arch-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .component {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 4px solid #ff9800;
+        }
+        
+        .component h3 {
+            color: #1e3c72;
+            margin: 10px 0;
+        }
+        
+        .component p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .code-preview {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .data-specs {
+            background: linear-gradient(120deg, #fff3cd 0%, #ffeaa7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-right: 5px solid #ffc107;
+        }
+        
+        .data-specs h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        
+        .specs-table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .specs-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .specs-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #dee2e6;
+            color: #1e3c72;
+            font-weight: bold;
+        }
+        
+        .specs-table td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #dee2e6;
+            color: #666;
+        }
+        
+        .specs-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .timeline {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .timeline h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timeline-week {
+            background: #ff9800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-left: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .timeline-task {
+            flex: 1;
+            color: #666;
+        }
+        
+        .timeline-status {
+            font-size: 1.5em;
+        }
+        
+        .status-planning {
+            color: #ff9800;
+        }
+        
+        .risks {
+            background: linear-gradient(120deg, #f8d7da 0%, #f5c6cb 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-right: 5px solid #dc3545;
+        }
+        
+        .risks h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        
+        .risk-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-right: 3px solid #dc3545;
+        }
+        
+        .risk-item h4 {
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+        
+        .risk-item p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .quick-links {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .quick-links h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .quick-link {
+            background: linear-gradient(45deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.75em;
+        }
+        
+        .quick-link:hover {
+            background: linear-gradient(45deg, #8e44ad, #6f42c1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        .status-pending {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .connection-status {
+                grid-template-columns: 1fr;
+            }
+            
+            .req-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .arch-components {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <a href="project_dashboard.html" class="back-btn">🏠 חזרה לדשבורד</a>
+            <h1>🔗 חיבור Interactive Brokers</h1>
+            <div class="subtitle">Phase 1: IB Integration - חיבור יציב לאיסוף נתוני MSTR</div>
+        </div>
+        
+        <!-- Coming Soon Section -->
+        <div class="coming-soon">
+            <div class="coming-soon-icon">🔌</div>
+            <h2>Phase 1 - IB Integration</h2>
+            <p>החיבור ל-Interactive Brokers יתחיל השבוע הבא עם מחקר דרישות החשבון</p>
+            <p><strong>סטטוס נוכחי:</strong> <span class="status-pending">בתכנון - שלב הכנה</span></p>
+            <p><strong>התחלת מימוש:</strong> השבוע הראשון של ספטמבר 2025</p>
+        </div>
+        
+        <!-- Connection Status -->
+        <div class="connection-status">
+            <div class="status-card pending">
+                <div class="status-icon">🏦</div>
+                <h3>חשבון IB</h3>
+                <p>בדיקת דרישות חשבון והרשאות נתונים</p>
+            </div>
+            <div class="status-card pending">
+                <div class="status-icon">🐍</div>
+                <h3>Python Environment</h3>
+                <p>הגדרת ib_insync ותלויות</p>
+            </div>
+            <div class="status-card pending">
+                <div class="status-icon">🔌</div>
+                <h3>TWS/Gateway</h3>
+                <p>התקנת והגדרת ממשק IB</p>
+            </div>
+            <div class="status-card pending">
+                <div class="status-icon">📊</div>
+                <h3>נתוני MSTR</h3>
+                <p>הורדת דוגמת נתונים ראשונית</p>
+            </div>
+        </div>
+        
+        <!-- Requirements -->
+        <div class="requirements">
+            <h2>📋 דרישות מוקדמות</h2>
+            <div class="req-grid">
+                <div class="req-card">
+                    <h3>דרישות חשבון IB</h3>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">חשבון Interactive Brokers פעיל</div>
+                    </div>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">הרשאות לנתונים היסטוריים</div>
+                    </div>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">גבולות API מותרים</div>
+                    </div>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">בדיקת עלויות נתונים</div>
+                    </div>
+                </div>
+                
+                <div class="req-card">
+                    <h3>דרישות טכניות</h3>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">TWS או IB Gateway</div>
+                    </div>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">Python 3.8+ environment</div>
+                    </div>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">ספריית ib_insync</div>
+                    </div>
+                    <div class="req-item">
+                        <div class="req-checkbox pending"></div>
+                        <div class="req-text">חיבור אינטרנט יציב</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Architecture -->
+        <div class="architecture">
+            <h2>🏗️ ארכיטקטורת החיבור המתוכננת</h2>
+            <div class="arch-components">
+                <div class="component">
+                    <h3>Connection Manager</h3>
+                    <p>ניהול חיבור יציב ל-IB עם reconnection אוטומטי</p>
+                </div>
+                <div class="component">
+                    <h3>Data Downloader</h3>
+                    <p>הורדת נתונים היסטוריים עם rate limiting</p>
+                </div>
+                <div class="component">
+                    <h3>Error Handler</h3>
+                    <p>טיפול בשגיאות וretry mechanisms</p>
+                </div>
+                <div class="component">
+                    <h3>Data Validator</h3>
+                    <p>בדיקת איכות ושלמות נתונים</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Code Preview -->
+        <div style="background: rgba(255, 255, 255, 0.95); border-radius: 15px; padding: 25px; margin: 30px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <h2 style="color: #1e3c72; margin-bottom: 15px;">💻 דוגמת קוד מתוכננת</h2>
+            <div class="code-preview">
+# Connection Manager - יפותח בPhase 1
+class IBConnectionManager:
+    def __init__(self, host='127.0.0.1', port=7497):
+        self.ib = IB()
+        self.host = host
+        self.port = port
+        
+    def connect(self):
+        """Establish connection to IB"""
+        try:
+            self.ib.connect(self.host, self.port, clientId=1)
+            return True
+        except Exception as e:
+            self.handle_connection_error(e)
+            return False
+            
+    def download_mstr_data(self, period='2 Y'):
+        """Download MSTR historical data"""
+        contract = Stock('MSTR', 'SMART', 'USD')
+        bars = self.ib.reqHistoricalData(
+            contract, 
+            endDateTime='', 
+            durationStr=period,
+            barSizeSetting='1 min',
+            whatToShow='TRADES'
+        )
+        return bars
+            </div>
+        </div>
+        
+        <!-- Data Specifications -->
+        <div class="data-specs">
+            <h2>📊 מפרטי הורדת נתונים</h2>
+            <div class="specs-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>רזולוציה</th>
+                            <th>תקופה</th>
+                            <th>נקודות נתונים משוערות</th>
+                            <th>גודל משוער</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1 דקה</td>
+                            <td>2 שנים</td>
+                            <td>~2,000,000 רשומות</td>
+                            <td>~100 MB</td>
+                        </tr>
+                        <tr>
+                            <td>15 דקות</td>
+                            <td>2 שנים</td>
+                            <td>~130,000 רשומות</td>
+                            <td>~7 MB</td>
+                        </tr>
+                        <tr>
+                            <td>2 שעות</td>
+                            <td>2 שנים</td>
+                            <td>~16,000 רשומות</td>
+                            <td>~1 MB</td>
+                        </tr>
+                        <tr>
+                            <td>4 שעות</td>
+                            <td>2 שנים</td>
+                            <td>~8,000 רשומות</td>
+                            <td>~0.5 MB</td>
+                        </tr>
+                        <tr>
+                            <td>יומי</td>
+                            <td>2 שנים</td>
+                            <td>~730 רשומות</td>
+                            <td>~50 KB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Timeline -->
+        <div class="timeline">
+            <h2>📅 לוח זמנים Phase 1</h2>
+            <div class="timeline-item">
+                <div class="timeline-week">שבוע 1</div>
+                <div class="timeline-task">מחקר דרישות IB API ובדיקת חשבון</div>
+                <div class="timeline-status status-planning">🟡</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">שבוע 1</div>
+                <div class="timeline-task">הגדרת Python environment וib_insync</div>
+                <div class="timeline-status status-planning">🟡</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">שבוע 1</div>
+                <div class="timeline-task">חיבור בסיסי לTWS והורדת נתון לדוגמה</div>
+                <div class="timeline-status status-planning">🟡</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">שבוע 2</div>
+                <div class="timeline-task">הורדת שבוע מלא של נתוני MSTR</div>
+                <div class="timeline-status status-planning">🟡</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">שבוע 2</div>
+                <div class="timeline-task">validation מקיף ותיעוד התהליך</div>
+                <div class="timeline-status status-planning">🟡</div>
+            </div>
+        </div>
+        
+        <!-- Risks -->
+        <div class="risks">
+            <h2>⚠️ סיכונים ואתגרים צפויים</h2>
+            
+            <div class="risk-item">
+                <h4>Rate Limiting</h4>
+                <p>מגבלות IB API עלולות להאט הורדת נתונים - פתרון: batch processing עם delays</p>
+            </div>
+            
+            <div class="risk-item">
+                <h4>עלויות נתונים</h4>
+                <p>ייתכנו עלויות נוספות לנתונים היסטוריים - בדיקה נדרשת</p>
+            </div>
+            
+            <div class="risk-item">
+                <h4>יציבות חיבור</h4>
+                <p>ניתוקים במהלך הורדה - פתרון: resume mechanism</p>
+            </div>
+            
+            <div class="risk-item">
+                <h4>איכות נתונים</h4>
+                <p>gaps או נתונים שגויים - פתרון: validation מקיף</p>
+            </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <h2>⚡ גישה מהירה</h2>
+            <div class="links-grid">
+                <a href="project_dashboard.html" class="quick-link">🏠 דשבורד</a>
+                <a href="readme.html" class="quick-link">📖 README</a>
+                <a href="prd.html" class="quick-link">📋 PRD</a>
+                <a href="current_status.html" class="quick-link">📊 מצב נוכחי</a>
+                <a href="tasks.html" class="quick-link">🎯 משימות</a>
+                <a href="database.html" class="quick-link">🗃️ מאגר נתונים</a>
+                <a href="strategy.html" class="quick-link">🚀 אסטרטגיה</a>
+                <a href="statistics.html" class="quick-link">📊 סטטיסטיקות</a>
+                <a href="interactive_brokers.html" class="quick-link">🔗 IB חיבור</a>
+                <a href="file_map.html" class="quick-link">🗂️ מפת קבצים</a>
+                <a href="automation_guide.html" class="quick-link">🤖 מדריך אוטומציה</a>
+                <a href="conversation_log.html" class="quick-link">💬 יומן שיחות</a>
+                <a href="rtl_editor.html" class="quick-link">📝 RTL Editor</a>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; color: white;">
+            <p><strong>📅 עודכן:</strong> 01 בספטמבר 2025 | <strong>👤 עודכן על ידי:</strong> Claude Code Assistant</p>
+            <p><strong>🔄 עדכון הבא:</strong> תחילת Phase 1 | <strong>📍 סטטוס:</strong> <span class="status-pending">מוכן להתחלה</span></p>
+        </div>
+    </div>
+</body>
+</html>

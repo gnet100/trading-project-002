@@ -1,0 +1,379 @@
+{
+  "project_info": {
+    "name": "Trading Project 002 - Statistical Trading Analysis System",
+    "version": "1.0",
+    "created": "2025-08-31",
+    "last_updated": "2025-09-01",
+    "description": "מערכת ניתוח סטטיסטי מתקדמת לנתוני מסחר עם מיקוד על נתוני MSTR",
+    "phases": 7,
+    "status": "Project Setup & Documentation"
+  },
+  
+  "file_structure": {
+    "root_directory": "Trading Project 002/",
+    
+    "core_files": {
+      "project_dashboard.html": {
+        "type": "html",
+        "category": "dashboard",
+        "description": "דשבורד ראשי של הפרויקט עם ניווט לכל המרכיבים",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "dependencies": ["readme.html", "prd.html", "tasks.html", "database.html", "strategy.html", "statistics.html", "interactive_brokers.html"],
+        "phase": "setup"
+      },
+      
+      "rtl_editor.html": {
+        "type": "html",
+        "category": "utility",
+        "description": "עורך טקסט RTL עם LocalStorage persistence",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "dependencies": [],
+        "phase": "setup"
+      }
+    },
+    
+    "documentation": {
+      "readme.md": {
+        "type": "markdown",
+        "category": "documentation",
+        "description": "מבוא לפרויקט והתחלה מהירה",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "paired_file": "readme.html",
+        "phase": "setup"
+      },
+      
+      "readme.html": {
+        "type": "html",
+        "category": "documentation",
+        "description": "גרסת HTML של מסמך README",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "paired_file": "readme.md",
+        "phase": "setup"
+      },
+      
+      "prd.md": {
+        "type": "markdown",
+        "category": "documentation",
+        "description": "Project Requirements Document מפורט",
+        "status": "active",
+        "last_modified": "2025-08-31",
+        "paired_file": "prd.html",
+        "phase": "setup"
+      },
+      
+      "prd.html": {
+        "type": "html",
+        "category": "documentation",
+        "description": "גרסת HTML של PRD",
+        "status": "active",
+        "last_modified": "2025-08-31",
+        "paired_file": "prd.md",
+        "phase": "setup"
+      }
+    },
+    
+    "project_management": {
+      "tasks.md": {
+        "type": "markdown",
+        "category": "management",
+        "description": "ניהול משימות וtimeline של הפרויקט",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "paired_file": "tasks.html",
+        "phase": "planning"
+      },
+      
+      "tasks.html": {
+        "type": "html",
+        "category": "management",
+        "description": "גרסת HTML של ניהול המשימות",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "paired_file": "tasks.md",
+        "phase": "planning"
+      },
+      
+      "current_status.md": {
+        "type": "markdown",
+        "category": "management",
+        "description": "מעקב אחר התקדמות הפרויקט",
+        "status": "active",
+        "last_modified": "2025-08-31",
+        "paired_file": "current_status.html",
+        "phase": "setup"
+      },
+      
+      "current_status.html": {
+        "type": "html",
+        "category": "management",
+        "description": "גרסת HTML של מעקב התקדמות",
+        "status": "active",
+        "last_modified": "2025-08-31",
+        "paired_file": "current_status.md",
+        "phase": "setup"
+      },
+      
+      "conversation_log.md": {
+        "type": "markdown",
+        "category": "management",
+        "description": "יומן שיחות ותיעוד החלטות",
+        "status": "active",
+        "last_modified": "2025-08-31",
+        "paired_file": "conversation_log.html",
+        "phase": "setup"
+      },
+      
+      "conversation_log.html": {
+        "type": "html",
+        "category": "management",
+        "description": "גרסת HTML של יומן השיחות",
+        "status": "active",
+        "last_modified": "2025-08-31",
+        "paired_file": "conversation_log.md",
+        "phase": "setup"
+      }
+    },
+    
+    "technical_design": {
+      "database.md": {
+        "type": "markdown",
+        "category": "technical",
+        "description": "תיעוד מקיף של מאגר הנתונים ו-data pipeline",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "paired_file": "database.html",
+        "phase": "phase_2"
+      },
+      
+      "database.html": {
+        "type": "html",
+        "category": "technical",
+        "description": "גרסת HTML של תיעוד מאגר הנתונים",
+        "status": "active",
+        "last_modified": "2025-09-01",
+        "paired_file": "database.md",
+        "phase": "phase_2"
+      },
+      
+      "interactive_brokers.md": {
+        "type": "markdown",
+        "category": "technical",
+        "description": "תיעוד חיבור ל-Interactive Brokers API",
+        "status": "pending_implementation",
+        "last_modified": "2025-09-01",
+        "paired_file": "interactive_brokers.html",
+        "phase": "phase_1"
+      },
+      
+      "interactive_brokers.html": {
+        "type": "html",
+        "category": "technical",
+        "description": "גרסת HTML של תיעוד IB integration",
+        "status": "pending_implementation",
+        "last_modified": "2025-09-01",
+        "paired_file": "interactive_brokers.md",
+        "phase": "phase_1"
+      }
+    },
+    
+    "analysis": {
+      "statistics.md": {
+        "type": "markdown",
+        "category": "analysis",
+        "description": "תיעוד מחקר סטטיסטי ו-data analysis",
+        "status": "future",
+        "last_modified": "2025-09-01",
+        "paired_file": "statistics.html",
+        "phase": "phase_4"
+      },
+      
+      "statistics.html": {
+        "type": "html",
+        "category": "analysis",
+        "description": "גרסת HTML של תיעוד הניתוח הסטטיסטי",
+        "status": "future",
+        "last_modified": "2025-09-01",
+        "paired_file": "statistics.md",
+        "phase": "phase_4"
+      },
+      
+      "strategy.md": {
+        "type": "markdown",
+        "category": "analysis",
+        "description": "תיעוד אסטרטגיות המסחר ו-backtesting",
+        "status": "future",
+        "last_modified": "2025-09-01",
+        "paired_file": "strategy.html",
+        "phase": "phase_6"
+      },
+      
+      "strategy.html": {
+        "type": "html",
+        "category": "analysis",
+        "description": "גרסת HTML של תיעוד האסטרטגיות",
+        "status": "future",
+        "last_modified": "2025-09-01",
+        "paired_file": "strategy.md",
+        "phase": "phase_6"
+      }
+    }
+  },
+  
+  "future_files": {
+    "planned": {
+      "src/": {
+        "description": "קוד מקור עתידי",
+        "planned_files": [
+          "ib_connection/connection_manager.py",
+          "ib_connection/data_downloader.py",
+          "ib_connection/error_handler.py",
+          "data_processing/data_validator.py",
+          "data_processing/aggregator.py",
+          "strategies/momentum_strategy.py",
+          "strategies/mean_reversion.py",
+          "utils/config.py",
+          "utils/logger.py"
+        ],
+        "phase": "phases_1_6"
+      },
+      
+      "data/": {
+        "description": "נתונים וקבצי מאגר",
+        "planned_files": [
+          "raw/mstr_1min.db",
+          "processed/mstr_indicators.db",
+          "backups/",
+          "exports/"
+        ],
+        "phase": "phases_2_3"
+      },
+      
+      "config/": {
+        "description": "קבצי הגדרות",
+        "planned_files": [
+          "ib_config.json",
+          "database_config.json",
+          "strategy_params.json"
+        ],
+        "phase": "phases_1_6"
+      },
+      
+      "tests/": {
+        "description": "בדיקות יחידה ואינטגרציה",
+        "planned_files": [
+          "test_ib_connection.py",
+          "test_data_processing.py",
+          "test_strategies.py"
+        ],
+        "phase": "phase_7"
+      },
+      
+      "logs/": {
+        "description": "קבצי log",
+        "planned_files": [
+          "ib_connection.log",
+          "data_processing.log",
+          "trading.log"
+        ],
+        "phase": "phases_1_6"
+      }
+    }
+  },
+  
+  "categories": {
+    "dashboard": {
+      "description": "קבצי דשבורד וניווט ראשי",
+      "files": ["project_dashboard.html"]
+    },
+    
+    "documentation": {
+      "description": "תיעוד הפרויקט ומסמכי מבוא",
+      "files": ["readme.md", "readme.html", "prd.md", "prd.html"]
+    },
+    
+    "management": {
+      "description": "ניהול פרויקט ומעקב התקדמות",
+      "files": ["tasks.md", "tasks.html", "current_status.md", "current_status.html", "conversation_log.md", "conversation_log.html"]
+    },
+    
+    "technical": {
+      "description": "תיעוד טכני ותשתית",
+      "files": ["database.md", "database.html", "interactive_brokers.md", "interactive_brokers.html"]
+    },
+    
+    "analysis": {
+      "description": "מחקר, ניתוח ואסטרטגיות",
+      "files": ["statistics.md", "statistics.html", "strategy.md", "strategy.html"]
+    },
+    
+    "utility": {
+      "description": "כלי עזר וutilities",
+      "files": ["rtl_editor.html"]
+    }
+  },
+  
+  "phases": {
+    "setup": {
+      "description": "הקמת פרויקט ותיעוד בסיסי",
+      "status": "completed",
+      "files": ["readme.*", "prd.*", "project_dashboard.html", "current_status.*", "conversation_log.*"]
+    },
+    
+    "planning": {
+      "description": "תכנון משימות וtimeline",
+      "status": "completed",
+      "files": ["tasks.*"]
+    },
+    
+    "phase_1": {
+      "description": "Interactive Brokers Integration",
+      "status": "pending",
+      "files": ["interactive_brokers.*"]
+    },
+    
+    "phase_2": {
+      "description": "Data Infrastructure",
+      "status": "planning",
+      "files": ["database.*"]
+    },
+    
+    "phase_4": {
+      "description": "Statistical Research",
+      "status": "future",
+      "files": ["statistics.*"]
+    },
+    
+    "phase_6": {
+      "description": "Trading Strategy Development",
+      "status": "future",
+      "files": ["strategy.*"]
+    }
+  },
+  
+  "statistics": {
+    "total_files": 21,
+    "by_type": {
+      "html": 11,
+      "markdown": 9,
+      "json": 1
+    },
+    "by_status": {
+      "active": 17,
+      "pending_implementation": 2,
+      "future": 2
+    },
+    "by_category": {
+      "documentation": 4,
+      "management": 6,
+      "technical": 4,
+      "analysis": 4,
+      "dashboard": 1,
+      "utility": 1,
+      "meta": 1
+    }
+  }
+}

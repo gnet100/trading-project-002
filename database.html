@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗃️ מאגר הנתונים - Trading Project 002</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .header h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .data-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .spec-card {
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .spec-card.volume {
+            background: linear-gradient(45deg, #2196f3, #42a5f5);
+        }
+        
+        .spec-card.timeline {
+            background: linear-gradient(45deg, #ff9800, #ffb74d);
+        }
+        
+        .spec-card.storage {
+            background: linear-gradient(45deg, #9c27b0, #ba68c8);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .section-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        
+        .section-card h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-icon {
+            margin-left: 10px;
+            font-size: 1.3em;
+        }
+        
+        .decision-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .db-option {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #6c757d;
+        }
+        
+        .db-option.recommended {
+            border-right-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .db-option.future {
+            border-right-color: #17a2b8;
+            background: #d1ecf1;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .pros {
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            border-right: 3px solid #28a745;
+        }
+        
+        .cons {
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            border-right: 3px solid #dc3545;
+        }
+        
+        .schema-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin: 20px 0;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .table-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .table-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #4caf50;
+        }
+        
+        .pipeline-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin: 20px 0;
+        }
+        
+        .pipeline-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .step-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .step-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .optimization-section {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #4caf50;
+        }
+        
+        .phases-section {
+            background: linear-gradient(120deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .phase-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .phase-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #e17055;
+        }
+        
+        .phase-card.completed {
+            border-right-color: #00b894;
+            background: #d4f7d4;
+        }
+        
+        .phase-card.current {
+            border-right-color: #fdcb6e;
+            background: #fff3cd;
+        }
+        
+        .issues-section {
+            background: linear-gradient(120deg, #f8d7da 0%, #f5c6cb 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .issue-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-right: 3px solid #dc3545;
+        }
+        
+        .solution {
+            background: #d4edda;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-style: italic;
+        }
+        
+        .resources-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(120deg, #e3f2fd 0%, #f1f8e9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .resource-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .resource-link {
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-link:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .quick-access-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-top: 30px;
+        }
+        
+        .quick-access-section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .quick-access {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .quick-btn {
+            background: linear-gradient(45deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            font-size: 0.75em;
+        }
+        
+        .quick-btn:hover {
+            background: linear-gradient(45deg, #8e44ad, #6f42c1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-specs {
+                grid-template-columns: 1fr;
+            }
+            
+            .decision-matrix {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <a href="project_dashboard.html" class="back-btn">🏠 חזרה לדשבורד</a>
+            <h1>🗃️ מאגר הנתונים</h1>
+            <div class="subtitle">מערך נתונים מקיף לניתוח MSTR - תכנון, מימוש ותחזוקה</div>
+            
+            <!-- Data Specifications -->
+            <div class="data-specs">
+                <div class="spec-card volume">
+                    <h3>📊 נפח נתונים</h3>
+                    <p>~2M רשומות MSTR<br>2 שנים היסטוריה</p>
+                </div>
+                <div class="spec-card">
+                    <h3>⏱️ רזולוציה</h3>
+                    <p>1 דקה → יומי<br>5 רמות זמן</p>
+                </div>
+                <div class="spec-card timeline">
+                    <h3>📅 טווח זמן</h3>
+                    <p>730 ימי מסחר<br>רצף היסטורי</p>
+                </div>
+                <div class="spec-card storage">
+                    <h3>💾 גודל משוער</h3>
+                    <p>120-150 MB<br>כולל אינדקסים</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Grid -->
+        <div class="main-content">
+            <!-- Database Technology Decision -->
+            <div class="section-card">
+                <h2>🤔 בחירת טכנולוגיה <span class="section-icon">🔧</span></h2>
+                
+                <div class="decision-matrix">
+                    <div class="db-option recommended">
+                        <h3>SQLite ✅</h3>
+                        <p><strong>החלטה ראשונית</strong></p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>יתרונות:</h4>
+                                <p>• פשוט להתקנה<br>
+                                • מובנה ב-Python<br>
+                                • ביצועים מעולים<br>
+                                • אפס תחזוקה</p>
+                            </div>
+                            <div class="cons">
+                                <h4>חסרונות:</h4>
+                                <p>• מוגבל בהרחבה<br>
+                                • אין concurrent writes<br>
+                                • פחות professional</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="db-option future">
+                        <h3>PostgreSQL</h3>
+                        <p><strong>מעבר עתידי</strong></p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>יתרונות:</h4>
+                                <p>• מקצועי וscalable<br>
+                                • TimescaleDB<br>
+                                • concurrent access<br>
+                                • תכונות מתקדמות</p>
+                            </div>
+                            <div class="cons">
+                                <h4>חסרונות:</h4>
+                                <p>• מורכב להתקנה<br>
+                                • דורש תחזוקה<br>
+                                • overkill לפרויקט זה</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="db-option">
+                        <h3>DuckDB</h3>
+                        <p><strong>חלופה מעניינת</strong></p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>יתרונות:</h4>
+                                <p>• מהיר לanalytics<br>
+                                • תמיכה בpandas<br>
+                                • אופטימיזציה לBI<br>
+                                • פשוט כמו SQLite</p>
+                            </div>
+                            <div class="cons">
+                                <h4>חסרונות:</h4>
+                                <p>• חדש יחסית<br>
+                                • פחות mature<br>
+                                • פחות תמיכה קהילתית</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Requirements -->
+            <div class="section-card">
+                <h2>🎯 דרישות הליבה <span class="section-icon">📋</span></h2>
+                
+                <h3>רזולוציות נדרשות:</h3>
+                <div class="table-specs">
+                    <div class="table-card">
+                        <h4>1 דקה</h4>
+                        <p>בסיס לכל הניתוחים<br>
+                        ~2M רשומות</p>
+                    </div>
+                    <div class="table-card">
+                        <h4>15 דקות</h4>
+                        <p>momentum קצר טווח<br>
+                        ~130K רשומות</p>
+                    </div>
+                    <div class="table-card">
+                        <h4>2 שעות</h4>
+                        <p>טרנדים יומיים<br>
+                        ~16K רשומות</p>
+                    </div>
+                    <div class="table-card">
+                        <h4>4 שעות</h4>
+                        <p>swing trading<br>
+                        ~8K רשומות</p>
+                    </div>
+                    <div class="table-card">
+                        <h4>יומי</h4>
+                        <p>טרנדים ארוכים<br>
+                        ~730 רשומות</p>
+                    </div>
+                </div>
+                
+                <h3>שדות נדרשים:</h3>
+                <p><strong>OHLCV:</strong> Open, High, Low, Close, Volume<br>
+                <strong>Metadata:</strong> Timestamp, Data Source, Created At<br>
+                <strong>Validation:</strong> Data Quality Flags</p>
+            </div>
+        </div>
+        
+        <!-- Schema Design -->
+        <div class="schema-section">
+            <h2>🏗️ תכנון Schema</h2>
+            
+            <h3>טבלה ראשית: mstr_1min</h3>
+            <div class="code-block">
+CREATE TABLE mstr_1min (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp DATETIME NOT NULL,
+    open DECIMAL(10,4) NOT NULL,
+    high DECIMAL(10,4) NOT NULL, 
+    low DECIMAL(10,4) NOT NULL,
+    close DECIMAL(10,4) NOT NULL,
+    volume INTEGER NOT NULL,
+    
+    -- Metadata fields
+    data_source VARCHAR(50) DEFAULT 'IB_API',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    UNIQUE(timestamp)
+);
+            </div>
+            
+            <h3>אינדקסים מתוכננים:</h3>
+            <div class="code-block">
+-- Primary index for time-based queries
+CREATE INDEX idx_mstr_1min_timestamp ON mstr_1min(timestamp);
+
+-- Composite index for range queries  
+CREATE INDEX idx_mstr_1min_date_range ON mstr_1min(timestamp, close);
+
+-- Index for volume analysis
+CREATE INDEX idx_mstr_1min_volume ON mstr_1min(volume, timestamp);
+            </div>
+        </div>
+        
+        <!-- Data Pipeline -->
+        <div class="pipeline-section">
+            <h2>📥 אסטרטגיית איסוף נתונים</h2>
+            
+            <div class="pipeline-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>חיבור IB API</h3>
+                    <p>בדיקת דרישות חשבון<br>הבנת rate limits<br>הערכת עלויות</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Data Pipeline</h3>
+                    <p>קריאת נתונים<br>validation באמצעי<br>insert למאגר</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Data Validation</h3>
+                    <p>בדיקת שלמות<br>OHLCV logic<br>זיהוי אנומליות</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Optimization -->
+        <div class="optimization-section">
+            <h2>⚡ אופטימיזציה וביצועים</h2>
+            
+            <div class="performance-metrics">
+                <div class="metric-card">
+                    <div class="metric-value">&lt;1s</div>
+                    <div>זמן תגובה לשאילתות</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1000+</div>
+                    <div>records/second insert</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">&lt;100ms</div>
+                    <div>סינון יום אחד</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">99.9%</div>
+                    <div>זמינות מאגר</div>
+                </div>
+            </div>
+            
+            <h3>אסטרטגיות מיטוב:</h3>
+            <p><strong>Indexing:</strong> Time-based, Range queries, Volume analysis<br>
+            <strong>Storage:</strong> Compression, Partitioning, Archival<br>
+            <strong>Queries:</strong> Execution plans, Join optimization</p>
+        </div>
+        
+        <!-- Implementation Phases -->
+        <div class="phases-section">
+            <h2>🚧 שלבי מימוש</h2>
+            
+            <div class="phase-timeline">
+                <div class="phase-card completed">
+                    <h3>Phase 2A</h3>
+                    <h4>Database Foundation</h4>
+                    <p>שבוע 2<br>
+                    ✓ החלטה על SQLite<br>
+                    □ הגדרת schema<br>
+                    □ scripts יצירה</p>
+                </div>
+                <div class="phase-card current">
+                    <h3>Phase 2B</h3>
+                    <h4>Data Loading</h4>
+                    <p>שבוע 3<br>
+                    □ מימוש data loader<br>
+                    □ חיבור ל-IB API<br>
+                    □ batch ראשון</p>
+                </div>
+                <div class="phase-card">
+                    <h3>Phase 2C</h3>
+                    <h4>Full Dataset</h4>
+                    <p>שבוע 4<br>
+                    □ הורדת 2 שנים<br>
+                    □ כל הרזולוציות<br>
+                    □ validation מקיף</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Known Issues -->
+        <div class="issues-section">
+            <h2>🔍 בעיות ידועות ופתרונות</h2>
+            
+            <div class="issue-item">
+                <h3>1. IB API Rate Limits</h3>
+                <p>עלול להאט הורדת נתונים משמעותית</p>
+                <div class="solution">
+                    <strong>פתרון:</strong> batch processing עם delays מתוכננים ומנגנון retry חכם
+                </div>
+            </div>
+            
+            <div class="issue-item">
+                <h3>2. Data Quality Issues</h3>
+                <p>gaps או נתונים שגויים ממקור הנתונים</p>
+                <div class="solution">
+                    <strong>פתרון:</strong> validation מרובד וbackfill procedures אוטומטיים
+                </div>
+            </div>
+            
+            <div class="issue-item">
+                <h3>3. Storage Growth</h3>
+                <p>מאגר גדל במהירות עם הוספת נתונים</p>
+                <div class="solution">
+                    <strong>פתרון:</strong> compression strategies ו-archival לנתונים ישנים
+                </div>
+            </div>
+        </div>
+        
+        <!-- Resources -->
+        <div class="resources-section">
+            <h2>📚 משאבים ותיעוד</h2>
+            
+            <div class="resource-links">
+                <a href="project_dashboard.html" class="resource-link">🏠 דשבורד</a>
+                <a href="tasks.html" class="resource-link">🎯 משימות</a>
+                <a href="strategy.html" class="resource-link">🚀 אסטרטגיה</a>
+                <a href="statistics.html" class="resource-link">📊 סטטיסטיקות</a>
+                <a href="interactive_brokers.html" class="resource-link">🔗 IB חיבור</a>
+                <a href="prd.html" class="resource-link">📋 PRD</a>
+            </div>
+            
+            <h3>ספריות Python מומלצות:</h3>
+            <p><code>sqlite3</code> • <code>pandas</code> • <code>ib_insync</code> • <code>sqlalchemy</code></p>
+        </div>
+        
+        <!-- Quick Access Section -->
+        <div class="quick-access-section">
+            <h2>⚡ גישה מהירה</h2>
+            <div class="quick-access">
+                <a href="project_dashboard.html" class="quick-btn">🏠 דשבורד</a>
+                <a href="readme.html" class="quick-btn">📖 README</a>
+                <a href="prd.html" class="quick-btn">📋 PRD</a>
+                <a href="current_status.html" class="quick-btn">📊 מצב נוכחי</a>
+                <a href="tasks.html" class="quick-btn">🎯 משימות</a>
+                <a href="database.html" class="quick-btn">🗃️ מאגר נתונים</a>
+                <a href="strategy.html" class="quick-btn">🚀 אסטרטגיה</a>
+                <a href="statistics.html" class="quick-btn">📊 סטטיסטיקות</a>
+                <a href="interactive_brokers.html" class="quick-btn">🔗 IB חיבור</a>
+                <a href="file_map.html" class="quick-btn">🗂️ מפת קבצים</a>
+                <a href="automation_guide.html" class="quick-btn">🤖 מדריך אוטומציה</a>
+                <a href="conversation_log.html" class="quick-btn">💬 יומן שיחות</a>
+                <a href="rtl_editor.html" class="quick-btn">📝 RTL Editor</a>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; color: white;">
+            <p><strong>📅 עודכן:</strong> 01 בספטמבר 2025 | <strong>👤 עודכן על ידי:</strong> Claude Code Assistant</p>
+            <p><strong>🔄 עדכון הבא:</strong> לאחר סיום Phase 2A</p>
+        </div>
+    </div>
+</body>
+</html>

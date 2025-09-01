@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Project Requirements Document</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .rtl-editor-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .rtl-editor-btn:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .file-info {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc1 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .back-nav {
+            background: #4caf50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-nav:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .quick-access-section {
+            background: linear-gradient(120deg, #e3f2fd 0%, #f1f8e9 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 2px solid #4caf50;
+        }
+        
+        .quick-access {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .quick-btn {
+            background: linear-gradient(45deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            font-size: 0.75em;
+        }
+        
+        .quick-btn:hover {
+            background: linear-gradient(45deg, #8e44ad, #6f42c1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        h1, h2, h3 {
+            color: #1e3c72;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        h2 {
+            border-right: 4px solid #4caf50;
+            padding-right: 15px;
+            margin-top: 30px;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: linear-gradient(120deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #28a745;
+            margin: 15px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(120deg, #d1ecf1 0%, #bee5eb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: linear-gradient(120deg, #f8d7da 0%, #f5c6cb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #dc3545;
+            margin: 15px 0;
+        }
+        
+        ul, ol {
+            padding-right: 30px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .phase-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-right: 5px solid #4caf50;
+        }
+        
+        .phase-title {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .file-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="project_dashboard.html" class="back-nav">🏠 חזרה לדשבורד</a>
+        
+        <div class="header">
+            <a href="rtl_editor.html" class="rtl-editor-btn">📝 RTL Editor</a>
+            <h1>📋 Project Requirements Document</h1>
+            <p style="font-size: 1.2em; color: #666; margin-top: 10px;">Trading Project 002 - Statistical Trading Analysis System</p>
+        </div>
+        
+        <div class="file-info">
+            <div><strong>📄 גודל קובץ:</strong> 15.2 KB</div>
+            <div><strong>🕒 נוצר:</strong> 31-08-2025 15:30</div>
+            <div><strong>📝 גרסה:</strong> 1.0 Draft</div>
+        </div>
+        
+        <div class="content">
+            <div class="highlight">
+                <h2>🎯 מטרת הפרויקט</h2>
+                <p><strong>פיתוח מערכת ניתוח סטטיסטי מתקדמת לנתוני מסחר</strong>, המתמקדת ברכישת נתונים היסטוריים מ-Interactive Brokers, בניית מאגר מידע יציב ומהימן, וביצוע מחקר סטטיסטי מקיף.</p>
+                <p>המערכת תשמש כבסיס לפיתוח אסטרטגיות מסחר מבוססות נתונים.</p>
+            </div>
+
+            <h2>🔄 הבדלים מגישה קודמת</h2>
+            <div class="info-box">
+                <ul>
+                    <li><strong>מערכת חדשה לחלוטין</strong> - לא מיגרציה מ-C#/NinjaTrader</li>
+                    <li><strong>מיקוד על ניתוח סטטיסטי</strong> כבסיס לאסטרטגיות</li>
+                    <li><strong>בניית תשתית נתונים</strong> כעדיפות ראשונה</li>
+                    <li><strong>גישה מחקרית</strong> - ממצאים יובילו לאסטרטגיות</li>
+                </ul>
+            </div>
+
+            <h2>📁 קבצים קיימים במערכת הקודמת (Reference)</h2>
+            
+            <div class="phase-card">
+                <div class="phase-title">📋 מסמכי תיעוד וניהול</div>
+                <ul>
+                    <li><strong>README.md</strong> - תיאור כללי פרויקט המיגרציה מ-C#</li>
+                    <li><strong>current_status.md</strong> - מעקב התקדמות ומשימות</li>
+                    <li><strong>conversation_log.md</strong> - יומן שיחות מפורט</li>
+                    <li><strong>TASKS.md</strong> - ניהול משימות וטיימליין</li>
+                    <li><strong>file_map.json</strong> - מיפוי מלא של מבנה הקבצים</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-title">🏗️ תכנון טכני</div>
+                <ul>
+                    <li><strong>python_architecture_plan.md</strong> - תכנון ארכיטקטורת Python</li>
+                    <li><strong>database_comparison.md</strong> - השוואת מסדי נתונים</li>
+                    <li><strong>data_loader_plan.md</strong> - תכנון טעינת נתונים מ-CSV</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-title">🌐 מערכת Dashboard</div>
+                <ul>
+                    <li><strong>project_dashboard.html</strong> - דשבורד מרכזי עם סקירה כללית</li>
+                    <li><strong>דפי מעקב:</strong> current_status.html, tasks.html, conversation_log.html</li>
+                    <li><strong>דפי תכנון:</strong> architecture_plan.html, database_comparison.html</li>
+                    <li><strong>generate_html_dashboard.py</strong> - מחולל HTML אוטומטי</li>
+                </ul>
+                <p><strong>קשרים:</strong> מערכת מתוחכמת של עדכון הדדי בין Markdown ל-HTML</p>
+            </div>
+
+            <h2>🎯 שלבי הפרויקט</h2>
+
+            <div class="phase-card">
+                <div class="phase-title">Phase 1: Interactive Brokers Integration</div>
+                <p><strong>מטרה:</strong> יצירת חיבור יציב ל-IB עם יכולות מלאות</p>
+                <ul>
+                    <li>חיבור ל-TWS API</li>
+                    <li>הורדת נתונים היסטוריים (MSTR, 2 שנים, 1-דקה)</li>
+                    <li>יכולת ביצוע פקודות מסחר (לשלבים עתידיים)</li>
+                    <li>טיפול ב-rate limiting ושגיאות</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-title">Phase 2: Data Infrastructure</div>
+                <p><strong>מטרה:</strong> בניית מאגר נתונים יציב ואמין</p>
+                <ul>
+                    <li>תכנון schema למסד נתונים</li>
+                    <li>רזולוציות מרובות (1-דקה, 15-דקות, 2-שעות, 4-שעות, יומי)</li>
+                    <li>אחסון ~2M רשומות OHLCV + timestamp</li>
+                    <li>מנגנוני backup ו-recovery</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-title">Phase 3 & 4: Indicators & Statistical Research (במקביל)</div>
+                <p><strong>מטרה:</strong> פיתוח כלי ניתוח ומחקר</p>
+                <ul>
+                    <li><strong>Phase 3:</strong> פיתוח/ייבוא אינדיקטורים טכניים</li>
+                    <li><strong>Phase 4:</strong> מחקר סטטיסטי מקיף על הנתונים</li>
+                    <li>השוואות בין רזולוציות זמן שונות</li>
+                    <li>ניתוח patterns ו-correlations</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-title">Phase 5: Analysis Results</div>
+                <p><strong>מטרה:</strong> הפקת מסקנות מהמחקר</p>
+                <ul>
+                    <li>סיכום ממצאים סטטיסטיים</li>
+                    <li>זיהוי patterns משמעותיים</li>
+                    <li>הערכת פוטנציאל רווח</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-title">Phase 6: Trading Strategy Development</div>
+                <p><strong>מטרה:</strong> בניית אסטרטגיה מבוססת ממצאים</p>
+                <ul>
+                    <li>תכנון אסטרטגיה על בסיס הממצאים</li>
+                    <li>backtesting מקיף</li>
+                    <li>אופטימיזציה ובדיקות</li>
+                </ul>
+            </div>
+
+            <div class="phase-card" style="border-right-color: #dc3545;">
+                <div class="phase-title">Phase 7: Quality Assurance (לאורך כל הפרויקט)</div>
+                <p><strong>מטרה:</strong> בקרת איכות מתמשכת</p>
+                <ul>
+                    <li>בדיקות תקינות נתונים</li>
+                    <li>validation של חישובים</li>
+                    <li>monitoring וlogging</li>
+                    <li>error handling מקיף</li>
+                </ul>
+            </div>
+
+            <h2>✅ קריטריוני הצלחה</h2>
+            <div class="success">
+                <ul>
+                    <li><strong>Phase 1:</strong> חיבור יציב ל-IB, הורדת sample data, טיפול בשגיאות</li>
+                    <li><strong>Phase 2:</strong> מסד נתונים עם 2M+ רשומות, query time <1 שניה, שלמות 100%</li>
+                    <li><strong>Phase 3-4:</strong> אינדיקטורים נכונים, ממצאים משמעותיים, תיעוד מפורט</li>
+                    <li><strong>Phase 5-6:</strong> אסטרטגיה מוגדרת, backtesting חיובי, מוכנות לזמן אמת</li>
+                </ul>
+            </div>
+
+            <h2>⚠️ גורמי סיכון ופתרונות</h2>
+            <div class="warning">
+                <h3>סיכונים טכניים:</h3>
+                <ul>
+                    <li><strong>IB API limitations</strong> → fallback mechanisms, rate limiting</li>
+                    <li><strong>גודל נתונים</strong> → database optimization, indexing</li>
+                    <li><strong>ביצועים</strong> → profiling, caching strategies</li>
+                </ul>
+                
+                <h3>סיכוני נתונים:</h3>
+                <ul>
+                    <li><strong>איכות נתונים</strong> → multiple validation layers</li>
+                    <li><strong>נתונים חסרים</strong> → detection ו-handling protocols</li>
+                    <li><strong>שגיאות חישוב</strong> → unit testing מקיף</li>
+                </ul>
+            </div>
+
+            <h2>📈 תוצאות צפויות</h2>
+            <div class="info-box">
+                <h3>תשתית טכנית:</h3>
+                <ul>
+                    <li>מערכת איסוף נתונים אמינה</li>
+                    <li>מסד נתונים מייעל וגמיש</li>
+                    <li>כלי ניתוח מתקדמים</li>
+                </ul>
+                
+                <h3>ממצאי מחקר:</h3>
+                <ul>
+                    <li>הבנת התנהגות מחירי MSTR</li>
+                    <li>זיהוי patterns סטטיסטיים</li>
+                    <li>baseline לאסטרטגיות עתידיות</li>
+                </ul>
+                
+                <h3>אסטרטגיית מסחר:</h3>
+                <ul>
+                    <li>מבוססת נתונים וממצאים</li>
+                    <li>backtested ומאומתת</li>
+                    <li>מוכנה ליישום בזמן אמת</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Quick Access Section -->
+        <div class="quick-access-section">
+            <h2>⚡ גישה מהירה</h2>
+            <div class="quick-access">
+                <a href="project_dashboard.html" class="quick-btn">🏠 דשבורד</a>
+                <a href="readme.html" class="quick-btn">📖 README</a>
+                <a href="prd.html" class="quick-btn">📋 PRD</a>
+                <a href="current_status.html" class="quick-btn">📊 מצב נוכחי</a>
+                <a href="tasks.html" class="quick-btn">🎯 משימות</a>
+                <a href="database.html" class="quick-btn">🗃️ מאגר נתונים</a>
+                <a href="strategy.html" class="quick-btn">🚀 אסטרטגיה</a>
+                <a href="statistics.html" class="quick-btn">📊 סטטיסטיקות</a>
+                <a href="interactive_brokers.html" class="quick-btn">🔗 IB חיבור</a>
+                <a href="file_map.html" class="quick-btn">🗂️ מפת קבצים</a>
+                <a href="automation_guide.html" class="quick-btn">🤖 מדריך אוטומציה</a>
+                <a href="conversation_log.html" class="quick-btn">💬 יומן שיחות</a>
+                <a href="rtl_editor.html" class="quick-btn">📝 RTL Editor</a>
+            </div>
+        </div>
+        
+        <div class="timestamp">
+            📅 נוצר: 31 באוגוסט 2025, 15:30<br>
+            👤 נוצר על ידי: Claude Code Assistant<br>
+            📝 סטטוס: Draft - מחכה לאישור<br>
+            🔄 הבא: אישור PRD ומעבר ל-Phase 1
+        </div>
+    </div>
+</body>
+</html>

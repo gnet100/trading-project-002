@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 אסטרטגיית המסחר - Trading Project 002</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .header h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .coming-soon {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 50px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .coming-soon-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            color: #4caf50;
+        }
+        
+        .coming-soon h2 {
+            color: #1e3c72;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        
+        .coming-soon p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .preview-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .preview-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-right: 5px solid #4caf50;
+        }
+        
+        .preview-card h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .preview-card ul {
+            list-style: none;
+            padding-right: 0;
+        }
+        
+        .preview-card li {
+            padding: 5px 0;
+            color: #666;
+            position: relative;
+            padding-right: 20px;
+        }
+        
+        .preview-card li:before {
+            content: "•";
+            color: #4caf50;
+            font-weight: bold;
+            position: absolute;
+            right: 0;
+        }
+        
+        .roadmap {
+            background: linear-gradient(120deg, #e3f2fd 0%, #f1f8e9 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .roadmap h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .roadmap-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            border-top: 4px solid #4caf50;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            background: #4caf50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .step h3 {
+            color: #1e3c72;
+            margin: 10px 0;
+        }
+        
+        .step p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .dependencies {
+            background: linear-gradient(120deg, #fff3cd 0%, #ffeaa7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-right: 5px solid #ffc107;
+        }
+        
+        .dependencies h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        
+        .dep-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-right: 3px solid #ffc107;
+        }
+        
+        .dep-item h4 {
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+        
+        .dep-item p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .status-pending {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .quick-links {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .quick-links h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .quick-link {
+            background: linear-gradient(45deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.75em;
+        }
+        
+        .quick-link:hover {
+            background: linear-gradient(45deg, #8e44ad, #6f42c1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .preview-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .roadmap-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <a href="project_dashboard.html" class="back-btn">🏠 חזרה לדשבורד</a>
+            <h1>🚀 אסטרטגיית המסחר</h1>
+            <div class="subtitle">מערכת מסחר מבוססת נתונים ומחקר סטטיסטי</div>
+        </div>
+        
+        <!-- Coming Soon Section -->
+        <div class="coming-soon">
+            <div class="coming-soon-icon">⏳</div>
+            <h2>בפיתוח - Coming Soon</h2>
+            <p>מסמך האסטרטגיות יתפתח בהדרגה לאחר השלמת שלבי איסוף הנתונים והניתוח הסטטיסטי</p>
+            <p><strong>סטטוס נוכחי:</strong> <span class="status-pending">ממתין לPhases 1-5</span></p>
+            <p><strong>תאריך יעד להתחלה:</strong> לאחר סיום Phase 5 (Analysis Results)</p>
+        </div>
+        
+        <!-- Preview Cards -->
+        <div class="preview-cards">
+            <div class="preview-card">
+                <h3>🎯 חזון האסטרטגיה</h3>
+                <ul>
+                    <li>אסטרטגיות מבוססות נתונים</li>
+                    <li>ניהול סיכונים מתקדם</li>
+                    <li>גמישות לתנאי שוק</li>
+                    <li>שקיפות ותיעוד מלא</li>
+                    <li>מעקב וביקורת רציפים</li>
+                </ul>
+            </div>
+            
+            <div class="preview-card">
+                <h3>📊 קטגוריות מתוכננות</h3>
+                <ul>
+                    <li>Momentum Strategies</li>
+                    <li>Mean Reversion Strategies</li>
+                    <li>Volatility-Based Strategies</li>
+                    <li>Time-Based Strategies</li>
+                    <li>Volume Analysis Strategies</li>
+                </ul>
+            </div>
+            
+            <div class="preview-card">
+                <h3>⚙️ כלים טכניים</h3>
+                <ul>
+                    <li>Python + pandas/numpy</li>
+                    <li>scipy/sklearn לניתוח</li>
+                    <li>backtesting frameworks</li>
+                    <li>matplotlib/plotly להדמיות</li>
+                    <li>zipline/pyfolio לניתוח תיקים</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Development Roadmap -->
+        <div class="roadmap">
+            <h2>🗺️ מפת דרכים לפיתוח</h2>
+            <div class="roadmap-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Data Analysis</h3>
+                    <p>ניתוח היסטורי מקיף של נתוני MSTR וזיהוי דפוסים ראשוניים</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Pattern Recognition</h3>
+                    <p>זיהוי patterns טכניים, נפחי מסחר וקורלציות</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Strategy Development</h3>
+                    <p>פיתוח אסטרטגיות ראשוניות ובדיקות backtesting</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Optimization</h3>
+                    <p>אופטימיזציית פרמטרים וניהול סיכונים</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Implementation</h3>
+                    <p>מימוש מערכת מסחר אוטומטית</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dependencies -->
+        <div class="dependencies">
+            <h2>📋 תלויות נדרשות</h2>
+            
+            <div class="dep-item">
+                <h4>Phase 1: Interactive Brokers Integration</h4>
+                <p>נדרש חיבור יציב ל-IB API והורדת נתוני MSTR היסטוריים</p>
+            </div>
+            
+            <div class="dep-item">
+                <h4>Phase 2: Data Infrastructure</h4>
+                <p>מאגר נתונים מוכן עם ~2M רשומות ו-5 רזולוציות זמן</p>
+            </div>
+            
+            <div class="dep-item">
+                <h4>Phase 3: Technical Indicators</h4>
+                <p>מדדים טכניים מחושבים לכל רזולוציות הזמן</p>
+            </div>
+            
+            <div class="dep-item">
+                <h4>Phase 4: Statistical Research</h4>
+                <p>ממצאי מחקר סטטיסטי וזיהוי דפוסים חוזרים</p>
+            </div>
+            
+            <div class="dep-item">
+                <h4>Phase 5: Analysis Results</h4>
+                <p>תוצאות ניתוח מקיפות ודו"חות ממצאים</p>
+            </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <h2>⚡ גישה מהירה</h2>
+            <div class="links-grid">
+                <a href="project_dashboard.html" class="quick-link">🏠 דשבורד</a>
+                <a href="readme.html" class="quick-link">📖 README</a>
+                <a href="prd.html" class="quick-link">📋 PRD</a>
+                <a href="current_status.html" class="quick-link">📊 מצב נוכחי</a>
+                <a href="tasks.html" class="quick-link">🎯 משימות</a>
+                <a href="database.html" class="quick-link">🗃️ מאגר נתונים</a>
+                <a href="strategy.html" class="quick-link">🚀 אסטרטגיה</a>
+                <a href="statistics.html" class="quick-link">📊 סטטיסטיקות</a>
+                <a href="interactive_brokers.html" class="quick-link">🔗 IB חיבור</a>
+                <a href="file_map.html" class="quick-link">🗂️ מפת קבצים</a>
+                <a href="automation_guide.html" class="quick-link">🤖 מדריך אוטומציה</a>
+                <a href="conversation_log.html" class="quick-link">💬 יומן שיחות</a>
+                <a href="rtl_editor.html" class="quick-link">📝 RTL Editor</a>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; color: white;">
+            <p><strong>📅 עודכן:</strong> 01 בספטמבר 2025 | <strong>👤 עודכן על ידי:</strong> Claude Code Assistant</p>
+            <p><strong>🔄 עדכון הבא:</strong> לאחר השלמת Phase 5 | <strong>📍 סטטוס:</strong> <span class="status-pending">בהמתנה לנתונים</span></p>
+        </div>
+    </div>
+</body>
+</html>

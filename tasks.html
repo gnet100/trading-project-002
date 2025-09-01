@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 ניהול משימות - Project 002</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .rtl-editor-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .rtl-editor-btn:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .back-nav {
+            background: #4caf50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-nav:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .quick-access-section {
+            background: linear-gradient(120deg, #e3f2fd 0%, #f1f8e9 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 2px solid #4caf50;
+        }
+        
+        .quick-access {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .quick-btn {
+            background: linear-gradient(45deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            font-size: 0.75em;
+        }
+        
+        .quick-btn:hover {
+            background: linear-gradient(45deg, #8e44ad, #6f42c1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        h1, h2, h3 {
+            color: #1e3c72;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        h2 {
+            border-right: 4px solid #4caf50;
+            padding-right: 15px;
+            margin-top: 30px;
+        }
+        
+        .status-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .status-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-right: 5px solid #4caf50;
+            text-align: center;
+        }
+        
+        .status-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4caf50;
+        }
+        
+        .phase-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-right: 5px solid #4caf50;
+        }
+        
+        .phase-header {
+            background: linear-gradient(120deg, #e8f5e8 0%, #f1f8e9 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-right: 4px solid #4caf50;
+        }
+        
+        .phase-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+        
+        .task-list {
+            margin: 15px 0;
+        }
+        
+        .task-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-right: 3px solid #17a2b8;
+            position: relative;
+        }
+        
+        .task-item.urgent {
+            border-right-color: #dc3545;
+            background: #fff5f5;
+        }
+        
+        .task-item.completed {
+            border-right-color: #28a745;
+            background: #f0fff0;
+            opacity: 0.8;
+        }
+        
+        .task-priority {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .priority-critical { background: #dc3545; }
+        .priority-high { background: #fd7e14; }
+        .priority-medium { background: #ffc107; color: #333; }
+        .priority-low { background: #6c757d; }
+        
+        .task-duration {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: linear-gradient(120deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #28a745;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: linear-gradient(120deg, #f8d7da 0%, #f5c6cb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #dc3545;
+            margin: 15px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(120deg, #d1ecf1 0%, #bee5eb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+        
+        .timeline-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #6c757d;
+        }
+        
+        .timeline-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timeline-week {
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background-color: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #66bb6a);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .blockers-section {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-right: 4px solid #ffc107;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .status-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="project_dashboard.html" class="back-nav">🏠 חזרה לדשבורד</a>
+        
+        <div class="header">
+            <a href="rtl_editor.html" class="rtl-editor-btn">📝 RTL Editor</a>
+            <h1>🎯 ניהול משימות - Project 002</h1>
+            <p style="font-size: 1.2em; color: #666; margin-top: 10px;">Statistical Trading Analysis System</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h2>📊 סטטוס כללי</h2>
+                <p><strong>שלב נוכחי:</strong> Project Setup & Phase 1 Planning</p>
+                <p><strong>תאריך התחלה:</strong> 31 באוגוסט 2025</p>
+            </div>
+
+            <div class="status-overview">
+                <div class="status-card">
+                    <div class="status-number">12</div>
+                    <div>משימות פעילות</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-number">6</div>
+                    <div>הושלמו</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-number">6</div>
+                    <div>נותרו</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-number">50%</div>
+                    <div>התקדמות</div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%">50% הושלם</div>
+            </div>
+
+            <div class="phase-section">
+                <div class="phase-header">
+                    <div class="phase-title">🏗️ Phase 1: Interactive Brokers Integration</div>
+                    <div style="font-size: 1em; color: #666;">מטרה: חיבור יציב ל-IB עם יכולות הורדת נתונים</div>
+                </div>
+
+                <h3>🔥 משימות דחופות (השבוע הבא)</h3>
+                <div class="task-list">
+                    <div class="task-item urgent">
+                        <div class="task-priority priority-critical">קריטי</div>
+                        <h4 style="margin-top: 25px;">מחקר IB API Requirements</h4>
+                        <ul>
+                            <li>בדיקת סוגי חשבונות וגישה לנתונים היסטוריים</li>
+                            <li>הבנת מגבלות API (requests per second/minute/day)</li>
+                            <li>עלויות נתונים היסטוריים למשקיעים רגילים vs מקצועיים</li>
+                        </ul>
+                        <div class="task-duration">משך משוער: 1-2 ימים</div>
+                    </div>
+
+                    <div class="task-item urgent">
+                        <div class="task-priority priority-high">גבוה</div>
+                        <h4 style="margin-top: 25px;">הגדרת Python Environment</h4>
+                        <ul>
+                            <li>יצירת virtual environment</li>
+                            <li>התקנת ספריות בסיסיות: ib_insync, pandas, numpy</li>
+                            <li>יצירת requirements.txt מעודכן</li>
+                        </ul>
+                        <div class="task-duration">משך משוער: 0.5 יום</div>
+                    </div>
+
+                    <div class="task-item urgent">
+                        <div class="task-priority priority-high">גבוה</div>
+                        <h4 style="margin-top: 25px;">בדיקת חיבור IB בסיסי</h4>
+                        <ul>
+                            <li>התקנת TWS או Gateway</li>
+                            <li>חיבור ראשוני לחשבון demo/live</li>
+                            <li>שליפת נתון לדוגמה (מחיר נוכחי של MSTR)</li>
+                        </ul>
+                        <div class="task-duration">משך משוער: 1 יום</div>
+                    </div>
+                </div>
+
+                <h3>📋 משימות תמיכה</h3>
+                <div class="task-list">
+                    <div class="task-item">
+                        <div class="task-priority priority-medium">בינוני</div>
+                        <h4 style="margin-top: 25px;">תכנון Error Handling</h4>
+                        <ul>
+                            <li>מה לעשות במקרה של ניתוק</li>
+                            <li>טיפול ב-rate limiting</li>
+                            <li>מנגנון retry אוטומטי</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-item">
+                        <div class="task-priority priority-medium">בינוני</div>
+                        <h4 style="margin-top: 25px;">תכנון Data Validation</h4>
+                        <ul>
+                            <li>בדיקת שלמות נתונים</li>
+                            <li>זיהוי gaps בנתונים</li>
+                            <li>בדיקת consistency בין רזולוציות</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phase-section">
+                <div class="phase-header">
+                    <div class="phase-title">🗃️ Phase 2: Data Infrastructure</div>
+                    <div style="font-size: 1em; color: #666;">מטרה: מסד נתונים יציב לשמירת ~2M רשומות MSTR</div>
+                </div>
+
+                <h3>🔄 משימות בתכנון</h3>
+                <div class="task-list">
+                    <div class="task-item">
+                        <div class="task-priority priority-high">גבוה</div>
+                        <h4 style="margin-top: 25px;">בחירת Database Technology</h4>
+                        <ul>
+                            <li>השוואה: SQLite vs PostgreSQL vs DuckDB</li>
+                            <li>בדיקת ביצועים עם נפח נתונים גדול</li>
+                            <li>שיקולי גיבוי ותחזוקה</li>
+                        </ul>
+                        <div class="task-duration">משך משוער: 2 ימים</div>
+                    </div>
+
+                    <div class="task-item">
+                        <div class="task-priority priority-medium">בינוני</div>
+                        <h4 style="margin-top: 25px;">תכנון Schema למסד נתונים</h4>
+                        <ul>
+                            <li>טבלאות לרזולוציות שונות</li>
+                            <li>אינדקסים לביצועים מיטביים</li>
+                            <li>שדות metadata ו-validation</li>
+                        </ul>
+                        <div class="task-duration">משך משוער: 1 יום</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>✅ משימות שהושלמו</h2>
+            <div class="success">
+                <h3>Session #001 - 31/08/2025</h3>
+                <div class="task-list">
+                    <div class="task-item completed">
+                        <h4>✅ יצירת תיקיית פרויקט - Trading Project 002</h4>
+                    </div>
+                    <div class="task-item completed">
+                        <h4>✅ כתיבת PRD מפורט - מסמך דרישות מקיף</h4>
+                    </div>
+                    <div class="task-item completed">
+                        <h4>✅ יצירת מערכת תיעוד - conversation_log.md + HTML</h4>
+                    </div>
+                    <div class="task-item completed">
+                        <h4>✅ הקמת דשבורד בסיסי - project_dashboard.html</h4>
+                    </div>
+                    <div class="task-item completed">
+                        <h4>✅ יצירת current_status - MD + HTML</h4>
+                    </div>
+                    <div class="task-item completed">
+                        <h4>✅ מסמך README - מבוא לפרויקט</h4>
+                    </div>
+                </div>
+            </div>
+
+            <h2>📅 Timeline משוער</h2>
+            <div class="timeline-section">
+                <div class="timeline-item">
+                    <div class="timeline-week">שבוע 1 (01-07/09/2025): IB Integration</div>
+                    <div>מחקר IB API ודרישות, הגדרת סביבת פיתוח, בדיקת חיבור בסיסי</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">שבוע 2 (08-14/09/2025): Database Setup</div>
+                    <div>בחירת טכנולוגיית DB, תכנון Schema, מימוש Data Loader בסיסי</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">שבוע 3-4 (15-28/09/2025): Full Data Download</div>
+                    <div>הורדת כל נתוני MSTR, יצירת רזולוציות, validation מקיף</div>
+                </div>
+            </div>
+
+            <h2>🚨 Blockers ו-Dependencies</h2>
+            <div class="warning">
+                <h3>🔥 Blockers פוטנציאליים</h3>
+                <ol>
+                    <li><strong>IB Account Limitations</strong> - ייתכן מגבלות על נתונים היסטוריים</li>
+                    <li><strong>API Rate Limits</strong> - עלול להאט הורדת נתונים</li>
+                    <li><strong>Data Costs</strong> - עלויות נוספות לנתונים היסטוריים</li>
+                    <li><strong>Technical Complexity</strong> - IB API מורכב יותר מהצפוי</li>
+                </ol>
+            </div>
+
+            <div class="highlight">
+                <h3>⚡ פעולות מיידיות השבוע הבא</h3>
+                <ol>
+                    <li><strong>פתיחת חשבון IB</strong> - אם עדיין לא קיים</li>
+                    <li><strong>מחקר דרישות API</strong> - מה צריך לגישה לנתונים</li>
+                    <li><strong>הגדרת Python environment</strong> - ספריות בסיסיות</li>
+                    <li><strong>בדיקת חיבור ראשונית</strong> - האם הכל עובד</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Quick Access Section -->
+        <div class="quick-access-section">
+            <h2>⚡ גישה מהירה</h2>
+            <div class="quick-access">
+                <a href="project_dashboard.html" class="quick-btn">🏠 דשבורד</a>
+                <a href="readme.html" class="quick-btn">📖 README</a>
+                <a href="prd.html" class="quick-btn">📋 PRD</a>
+                <a href="current_status.html" class="quick-btn">📊 מצב נוכחי</a>
+                <a href="tasks.html" class="quick-btn">🎯 משימות</a>
+                <a href="database.html" class="quick-btn">🗃️ מאגר נתונים</a>
+                <a href="strategy.html" class="quick-btn">🚀 אסטרטגיה</a>
+                <a href="statistics.html" class="quick-btn">📊 סטטיסטיקות</a>
+                <a href="interactive_brokers.html" class="quick-btn">🔗 IB חיבור</a>
+                <a href="file_map.html" class="quick-btn">🗂️ מפת קבצים</a>
+                <a href="automation_guide.html" class="quick-btn">🤖 מדריך אוטומציה</a>
+                <a href="conversation_log.html" class="quick-btn">💬 יומן שיחות</a>
+                <a href="rtl_editor.html" class="quick-btn">📝 RTL Editor</a>
+            </div>
+        </div>
+        
+        <div class="timestamp">
+            📅 עודכן: 31 באוגוסט 2025<br>
+            👤 עודכן על ידי: Claude Code Assistant<br>
+            🔄 עדכון הבא: בתום השבוע הראשון
+        </div>
+    </div>
+</body>
+</html>

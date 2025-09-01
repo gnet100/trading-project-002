@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 README - Trading Project 002</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .rtl-editor-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .rtl-editor-btn:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .back-nav {
+            background: #4caf50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-nav:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        h1, h2, h3 {
+            color: #1e3c72;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        h2 {
+            border-right: 4px solid #4caf50;
+            padding-right: 15px;
+            margin-top: 30px;
+        }
+        
+        .quick-access-section {
+            background: linear-gradient(120deg, #e3f2fd 0%, #f1f8e9 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 2px solid #4caf50;
+        }
+        
+        .quick-access {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .quick-btn {
+            background: linear-gradient(45deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            font-size: 0.75em;
+        }
+        
+        .quick-btn:hover {
+            background: linear-gradient(45deg, #8e44ad, #6f42c1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        .status-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .badge-blue { background: linear-gradient(45deg, #2196f3, #42a5f5); }
+        .badge-green { background: linear-gradient(45deg, #4caf50, #66bb6a); }
+        .badge-orange { background: linear-gradient(45deg, #ff9800, #ffb74d); }
+        
+        .highlight {
+            background: linear-gradient(120deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: linear-gradient(120deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #28a745;
+            margin: 15px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(120deg, #d1ecf1 0%, #bee5eb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 2px solid #4caf50;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .specs-table th {
+            background: #e8f5e8;
+            padding: 12px;
+            font-weight: bold;
+            text-align: right;
+            width: 30%;
+            border-right: 3px solid #4caf50;
+        }
+        
+        .specs-table td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .nav-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-right: 4px solid #4caf50;
+            text-align: center;
+        }
+        
+        .nav-card h4 {
+            margin-bottom: 10px;
+            color: #1e3c72;
+        }
+        
+        .nav-card a {
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .nav-card a:hover {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            transform: translateY(-2px);
+        }
+        
+        .phases-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-right: 4px solid #17a2b8;
+        }
+        
+        .phases-list ol {
+            padding-right: 20px;
+        }
+        
+        .phases-list li {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="project_dashboard.html" class="back-nav">🏠 חזרה לדשבורד</a>
+        
+        <div class="header">
+            <a href="rtl_editor.html" class="rtl-editor-btn">📝 RTL Editor</a>
+            <h1>📖 README - Trading Project 002</h1>
+            <p style="font-size: 1.2em; color: #666; margin-top: 10px;">Statistical Trading Analysis System</p>
+        </div>
+        
+        <div class="content">
+            <div class="success">
+                <h2>🎯 מטרת הפרויקט</h2>
+                <p><strong>פיתוח מערכת חדשה לחלוטין</strong> (לא מיגרציה) המתמקדת ב:</p>
+                <ul>
+                    <li>📈 <strong>איסוף נתונים היסטוריים</strong> מ-Interactive Brokers</li>
+                    <li>🗃️ <strong>בניית מאגר נתונים יציב</strong> ואמין</li>
+                    <li>📊 <strong>ניתוח סטטיסטי מקיף</strong> של נתוני MSTR</li>
+                    <li>🚀 <strong>פיתוח אסטרטגיות מסחר</strong> מבוססות ממצאים</li>
+                </ul>
+            </div>
+
+            <h2>📋 מפרטי נתונים</h2>
+            <table class="specs-table">
+                <tr>
+                    <th>מניה יעד</th>
+                    <td>MSTR</td>
+                </tr>
+                <tr>
+                    <th>טווח זמן</th>
+                    <td>2 שנים אחורה</td>
+                </tr>
+                <tr>
+                    <th>רזולוציה ראשית</th>
+                    <td>1 דקה (OHLCV)</td>
+                </tr>
+                <tr>
+                    <th>רזולוציות נוספות</th>
+                    <td>15 דקות, 2 שעות, 4 שעות, יומי</td>
+                </tr>
+                <tr>
+                    <th>נפח נתונים משוער</th>
+                    <td>~2 מיליון רשומות</td>
+                </tr>
+            </table>
+
+            <h2>🏗️ שלבי הפרויקט</h2>
+            <div class="phases-list">
+                <ol>
+                    <li>Interactive Brokers Integration</li>
+                    <li>Data Infrastructure</li>
+                    <li>Technical Indicators</li>
+                    <li>Statistical Research</li>
+                    <li>Analysis Results</li>
+                    <li>Trading Strategy Development</li>
+                    <li>Quality Assurance</li>
+                </ol>
+            </div>
+
+            <h2>🛠️ סטטוס נוכחי</h2>
+            <div class="status-badges">
+                <span class="badge badge-blue">Phase: Project Setup</span>
+                <span class="badge badge-green">Progress: 5%</span>
+                <span class="badge badge-orange">Session: #001</span>
+            </div>
+            <div class="info-box">
+                <p><strong>עודכן:</strong> 31 באוגוסט 2025</p>
+                <p><strong>הבא:</strong> Phase 1 - IB Integration</p>
+            </div>
+
+            <h2>📈 ההבדל מ-Project 001</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Project 001</th>
+                        <th>Project 002</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>מיגרציה מ-C#</td>
+                        <td>פרויקט חדש</td>
+                    </tr>
+                    <tr>
+                        <td>מבוסס NinjaTrader</td>
+                        <td>עצמאי לחלוטין</td>
+                    </tr>
+                    <tr>
+                        <td>העתקת לוגיקה קיימת</td>
+                        <td>מחקר סטטיסטי חדש</td>
+                    </tr>
+                    <tr>
+                        <td>73K עסקאות קיימות</td>
+                        <td>2M נתוני MSTR חדשים</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🔧 טכנולוגיות מתוכננות</h2>
+            <div class="highlight">
+                <ul>
+                    <li><strong>Python</strong> - שפת פיתוח ראשית</li>
+                    <li><strong>Interactive Brokers API</strong> - איסוף נתונים</li>
+                    <li><strong>Database</strong> - SQLite/PostgreSQL (החלטה עתידית)</li>
+                    <li><strong>Analysis</strong> - pandas, numpy, scipy</li>
+                    <li><strong>Visualization</strong> - matplotlib, plotly</li>
+                </ul>
+            </div>
+
+            <h2>📞 ניווט מהיר</h2>
+            <div class="nav-grid">
+                <div class="nav-card">
+                    <h4>🏠 דפי Web</h4>
+                    <p>מרכזי בקרה ומעקב</p>
+                    <a href="project_dashboard.html">Dashboard</a>
+                </div>
+                <div class="nav-card">
+                    <h4>📊 מעקב התקדמות</h4>
+                    <p>סטטוס ומשימות</p>
+                    <a href="current_status.html">Current Status</a>
+                </div>
+                <div class="nav-card">
+                    <h4>💬 תיעוד</h4>
+                    <p>יומן שיחות</p>
+                    <a href="conversation_log.html">Conversation Log</a>
+                </div>
+                <div class="nav-card">
+                    <h4>📋 תכנון</h4>
+                    <p>דרישות מפורטות</p>
+                    <a href="prd.html">PRD Document</a>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h2>⚠️ הערות חשובות</h2>
+                <ol>
+                    <li><strong>פרויקט עצמאי</strong> - לא תלוי ב-Project 001</li>
+                    <li><strong>שלב ראשוני</strong> - עדיין בשלב הקמה וקבצי בסיס</li>
+                    <li><strong>מיקוד מחקרי</strong> - ממצאים יובילו לאסטרטגיות</li>
+                    <li><strong>איכות נתונים</strong> - דגש על מאגר מידע יציב</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Quick Access Section -->
+        <div class="quick-access-section">
+            <h2>⚡ גישה מהירה</h2>
+            <div class="quick-access">
+                <a href="project_dashboard.html" class="quick-btn">🏠 דשבורד</a>
+                <a href="readme.html" class="quick-btn">📖 README</a>
+                <a href="prd.html" class="quick-btn">📋 PRD</a>
+                <a href="current_status.html" class="quick-btn">📊 מצב נוכחי</a>
+                <a href="tasks.html" class="quick-btn">🎯 משימות</a>
+                <a href="database.html" class="quick-btn">🗃️ מאגר נתונים</a>
+                <a href="strategy.html" class="quick-btn">🚀 אסטרטגיה</a>
+                <a href="statistics.html" class="quick-btn">📊 סטטיסטיקות</a>
+                <a href="interactive_brokers.html" class="quick-btn">🔗 IB חיבור</a>
+                <a href="file_map.html" class="quick-btn">🗂️ מפת קבצים</a>
+                <a href="automation_guide.html" class="quick-btn">🤖 מדריך אוטומציה</a>
+                <a href="conversation_log.html" class="quick-btn">💬 יומן שיחות</a>
+                <a href="rtl_editor.html" class="quick-btn">📝 RTL Editor</a>
+            </div>
+        </div>
+        
+        <div class="timestamp">
+            📅 נוצר: 31 באוגוסט 2025<br>
+            👤 נוצר על ידי: Claude Code Assistant<br>
+            🎯 מטרה: מסמך מבוא לפרויקט ניתוח סטטיסטי
+        </div>
+    </div>
+</body>
+</html>

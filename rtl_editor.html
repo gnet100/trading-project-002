@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 RTL Editor - Trading Project 002</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .back-nav {
+            background: #4caf50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-nav:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .editor-container {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-right: 4px solid #4caf50;
+        }
+        
+        .text-area-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        textarea {
+            width: 70%;
+            height: 300px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            direction: rtl;
+            text-align: right;
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .editor-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            min-width: 100px;
+        }
+        
+        .prev-btn {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .prev-btn:hover:not(:disabled) {
+            background: #f57c00;
+            transform: translateY(-2px);
+        }
+        
+        .next-btn {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .next-btn:hover:not(:disabled) {
+            background: #1976d2;
+            transform: translateY(-2px);
+        }
+        
+        .clear-btn {
+            background: #f44336;
+            color: white;
+        }
+        
+        .clear-btn:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+        
+        .editor-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .commands-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .command-card {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 20px;
+            border-right: 4px solid #4caf50;
+        }
+        
+        .command-title {
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .command-text {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            direction: ltr;
+            text-align: left;
+            margin: 10px 0;
+        }
+        
+        .copy-btn {
+            background: #4caf50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .copy-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .status-info {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc1 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            border-right: 4px solid #4caf50;
+        }
+        
+        .history-counter {
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .quick-access-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-top: 30px;
+        }
+        
+        .quick-access-section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .quick-access {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .quick-btn {
+            background: linear-gradient(45deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            font-size: 0.75em;
+        }
+        
+        .quick-btn:hover {
+            background: linear-gradient(45deg, #8e44ad, #6f42c1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .text-area-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            textarea {
+                width: 90%;
+            }
+            
+            .button-container {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .commands-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <a href="project_dashboard.html" class="back-nav">🏠 דשבורד</a>
+            <h1 style="margin: 0; color: #1e3c72;">📝 RTL Editor</h1>
+            <div style="width: 120px;"></div>
+        </div>
+        
+        <div class="editor-container">
+            <div class="text-area-container">
+                <textarea id="textArea" placeholder="הדבק כאן את הטקסט שלך לעריכה..."></textarea>
+                <div class="button-container">
+                    <button class="editor-btn prev-btn" id="prevBtn" disabled>↺ קודם</button>
+                    <button class="editor-btn next-btn" id="nextBtn" disabled>↻ הבא</button>
+                    <button class="editor-btn clear-btn" id="clearBtn">🗑️ נקה</button>
+                </div>
+            </div>
+            <div class="history-counter" id="historyCounter">היסטוריה: 0/10 טקסטים</div>
+        </div>
+        
+        <div class="commands-section">
+            <div class="command-card">
+                <div class="command-title">🚀 הפעלת Claude Code</div>
+                <div class="command-text">npx @anthropic-ai/claude-code</div>
+                <button class="copy-btn" onclick="copyCodeCommand(this)">📋 העתק פקודה</button>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-title">🔍 Prompt ניתוח מפורט</div>
+                <div class="command-text" style="font-size: 12px;">Output an overview of every single dimension of my request. Find points of uncertainty. Then, ask me as many clarifying questions as possible.</div>
+                <button class="copy-btn" onclick="copyAnalysisText(this)">📋 העתק Prompt</button>
+            </div>
+        </div>
+        
+        <div class="timestamp" style="text-align: center; color: #666; font-size: 0.9em; margin-top: 30px; padding-top: 20px; border-top: 2px solid #eee;">
+            📝 RTL Editor מותאם לדשבורד Trading Project 002<br>
+            💾 כל הטקסטים וההיסטוריה נשמרים קבוע בדפדפן (LocalStorage)<br>
+            🔄 הנתונים נשמרים אוטומטית בכל שינוי ונטענים בחזרה בכניסה לדף
+        </div>
+    </div>
+
+    <script>
+        const textArea = document.getElementById('textArea');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const historyCounter = document.getElementById('historyCounter');
+        
+        const STORAGE_KEY_HISTORY = 'rtl_editor_history_project002';
+        const STORAGE_KEY_CURRENT = 'rtl_editor_current_project002';
+        const STORAGE_KEY_INDEX = 'rtl_editor_index_project002';
+        
+        let history = [];
+        let index = 0;
+        
+        // שמור נתונים ב-LocalStorage
+        function saveToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(history));
+                localStorage.setItem(STORAGE_KEY_CURRENT, textArea.value);
+                localStorage.setItem(STORAGE_KEY_INDEX, index.toString());
+            } catch (e) {
+                console.warn('לא ניתן לשמור נתונים ב-LocalStorage:', e);
+            }
+        }
+        
+        // טען נתונים מ-LocalStorage
+        function loadFromStorage() {
+            try {
+                const savedHistory = localStorage.getItem(STORAGE_KEY_HISTORY);
+                const savedCurrent = localStorage.getItem(STORAGE_KEY_CURRENT);
+                const savedIndex = localStorage.getItem(STORAGE_KEY_INDEX);
+                
+                if (savedHistory) {
+                    history = JSON.parse(savedHistory);
+                }
+                if (savedCurrent) {
+                    textArea.value = savedCurrent;
+                }
+                if (savedIndex) {
+                    index = parseInt(savedIndex);
+                }
+            } catch (e) {
+                console.warn('לא ניתן לטעון נתונים מ-LocalStorage:', e);
+                history = [];
+                index = 0;
+            }
+        }
+        
+        // הוסף טקסט להיסטוריה
+        function addToHistory(text) {
+            if (text && text.trim()) {
+                history.push(text.trim());
+                if (history.length > 10) history.shift();
+                index = history.length;
+                updateButtons();
+                updateHistoryCounter();
+                saveToStorage();
+            }
+        }
+        
+        // עדכן כפתורים
+        function updateButtons() {
+            prevBtn.disabled = history.length === 0 || index <= 1;
+            nextBtn.disabled = index >= history.length;
+        }
+        
+        // עדכן מונה היסטוריה
+        function updateHistoryCounter() {
+            historyCounter.textContent = `היסטוריה: ${history.length}/10 טקסטים`;
+        }
+        
+        // כפתור קודם
+        function goToPrevious() {
+            if (index > 1) {
+                index--;
+                textArea.value = history[index - 1];
+                updateButtons();
+                saveToStorage();
+            }
+        }
+        
+        // כפתור הבא
+        function goToNext() {
+            if (index < history.length) {
+                index++;
+                textArea.value = history[index - 1];
+                updateButtons();
+                saveToStorage();
+            }
+        }
+        
+        // הדבקה - שמור הישן והחדש
+        textArea.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const oldText = this.value;
+            const newText = e.clipboardData.getData('text');
+            
+            if (oldText.trim()) addToHistory(oldText);
+            this.value = newText;
+            if (newText.trim()) addToHistory(newText);
+            saveToStorage();
+        });
+        
+        // שמירה אוטומטית בכל שינוי
+        textArea.addEventListener('input', function() {
+            saveToStorage();
+        });
+        
+        // שמירה לפני יציאה מהדף
+        window.addEventListener('beforeunload', function() {
+            saveToStorage();
+        });
+        
+        // נקה טקסט
+        function clearText() {
+            const text = textArea.value;
+            if (text.trim()) addToHistory(text);
+            textArea.value = '';
+            saveToStorage();
+        }
+        
+        // נקה היסטוריה (כפתור נוסף)
+        function clearHistory() {
+            if (confirm('האם אתה בטוח שברצונך למחוק את כל ההיסטוריה?')) {
+                history = [];
+                index = 0;
+                textArea.value = '';
+                updateButtons();
+                updateHistoryCounter();
+                saveToStorage();
+            }
+        }
+        
+        // העתק פקודת קלוד
+        function copyCodeCommand(btn) {
+            const command = 'npx @anthropic-ai/claude-code';
+            navigator.clipboard.writeText(command).then(function() {
+                btn.style.backgroundColor = '#2e7d32';
+                btn.textContent = '✅ הועתק!';
+                setTimeout(() => {
+                    btn.style.backgroundColor = '#4caf50';
+                    btn.textContent = '📋 העתק פקודה';
+                }, 1500);
+            }).catch(function(err) {
+                alert('שגיאה בהעתקה: ' + err);
+            });
+        }
+        
+        // העתק טקסט ניתוח
+        function copyAnalysisText(btn) {
+            const analysisText = 'Output an overview of every single dimension of my request. Find points of uncertainty. Then, ask me as many clarifying questions as possible.';
+            navigator.clipboard.writeText(analysisText).then(function() {
+                btn.style.backgroundColor = '#2e7d32';
+                btn.textContent = '✅ הועתק!';
+                setTimeout(() => {
+                    btn.style.backgroundColor = '#4caf50';
+                    btn.textContent = '📝 העתק Prompt';
+                }, 1500);
+            }).catch(function(err) {
+                alert('שגיאה בהעתקה: ' + err);
+            });
+        }
+        
+        // אירועי לחיצה
+        prevBtn.onclick = goToPrevious;
+        nextBtn.onclick = goToNext;
+        clearBtn.onclick = clearText;
+        
+        // אתחול - טען נתונים שמורים
+        loadFromStorage();
+        updateButtons();
+        updateHistoryCounter();
+    </script>
+    
+    <!-- Quick Access Section -->
+    <div class="quick-access-section">
+        <h2>⚡ גישה מהירה</h2>
+        <div class="quick-access">
+            <a href="project_dashboard.html" class="quick-btn">🏠 דשבורד</a>
+            <a href="readme.html" class="quick-btn">📖 README</a>
+            <a href="prd.html" class="quick-btn">📋 PRD</a>
+            <a href="current_status.html" class="quick-btn">📊 מצב נוכחי</a>
+            <a href="tasks.html" class="quick-btn">🎯 משימות</a>
+            <a href="database.html" class="quick-btn">🗃️ מאגר נתונים</a>
+            <a href="strategy.html" class="quick-btn">🚀 אסטרטגיה</a>
+            <a href="statistics.html" class="quick-btn">📊 סטטיסטיקות</a>
+            <a href="interactive_brokers.html" class="quick-btn">🔗 IB חיבור</a>
+            <a href="file_map.html" class="quick-btn">🗂️ מפת קבצים</a>
+            <a href="automation_guide.html" class="quick-btn">🤖 מדריך אוטומציה</a>
+            <a href="conversation_log.html" class="quick-btn">💬 יומן שיחות</a>
+            <a href="rtl_editor.html" class="quick-btn">📝 RTL Editor</a>
+        </div>
+    </div>
+</body>
+</html>
