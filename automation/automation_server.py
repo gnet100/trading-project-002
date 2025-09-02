@@ -78,7 +78,7 @@ class AutomationHandler(BaseHTTPRequestHandler):
     def _handle_update_conversations(self):
         """טיפול בעדכון יומן שיחות"""
         try:
-            print("🗣️ מתחיל עדכון יומן שיחות...")
+            print("[CONV] מתחיל עדכון יומן שיחות...")
             
             updater = update_conversations.ConversationUpdater(self.project_root)
             result = updater.run_conversation_update()
@@ -98,7 +98,7 @@ class AutomationHandler(BaseHTTPRequestHandler):
     def _handle_update_documentation(self):
         """טיפול בעדכון תיעוד"""
         try:
-            print("📝 מתחיל עדכון תיעוד...")
+            print("[DOCS] מתחיל עדכון תיעוד...")
             
             updater = update_documentation.DocumentationUpdater(self.project_root)
             result = updater.run_full_update()
@@ -119,7 +119,7 @@ class AutomationHandler(BaseHTTPRequestHandler):
     def _handle_github_sync(self):
         """טיפול בסינכרון GitHub"""
         try:
-            print("🔗 מתחיל סינכרון GitHub...")
+            print("[GITHUB] מתחיל סינכרון GitHub...")
             
             manager = github_manager.GitHubManager(self.project_root)
             
@@ -179,31 +179,31 @@ class AutomationServer:
             handler = self.create_handler()
             self.server = HTTPServer(('localhost', self.port), handler)
             
-            print(f"🚀 Automation Server מופעל על http://localhost:{self.port}")
-            print(f"📁 Project Root: {self.project_root}")
+            print(f"Automation Server מופעל על http://localhost:{self.port}")
+            print(f"Project Root: {self.project_root}")
             print("=" * 50)
-            print("📋 נתיבים זמינים:")
+            print("נתיבים זמינים:")
             print("  POST /update_conversations - עדכון יומן שיחות")
             print("  POST /update_documentation - עדכון תיעוד") 
             print("  POST /github_sync - סינכרון GitHub")
             print("=" * 50)
-            print("🔗 השרת מחובר לדשבורד - הכפתורים פעילים!")
-            print("💡 עצור עם Ctrl+C")
+            print("השרת מחובר לדשבורד - הכפתורים פעילים!")
+            print("עצור עם Ctrl+C")
             
             self.server.serve_forever()
             
         except KeyboardInterrupt:
-            print("\n🛑 השרת נעצר על ידי המשתמש")
+            print("\nהשרת נעצר על ידי המשתמש")
             self.stop_server()
         except Exception as e:
-            print(f"❌ שגיאה בהפעלת השרת: {str(e)}")
+            print(f"שגיאה בהפעלת השרת: {str(e)}")
     
     def stop_server(self):
         """עצירת השרת"""
         if self.server:
             self.server.shutdown()
             self.server.server_close()
-            print("✅ השרת נעצר")
+            print("השרת נעצר")
 
 def check_dependencies():
     """בדיקת התלויות הנדרשות"""
@@ -220,17 +220,17 @@ def check_dependencies():
         missing.append('markdown')
     
     if missing:
-        print("❌ חסרות ספריות Python:")
+        print("חסרות ספריות Python:")
         for lib in missing:
             print(f"  - {lib}")
-        print(f"\n💡 התקן עם: pip install {' '.join(missing)}")
+        print(f"\nהתקן עם: pip install {' '.join(missing)}")
         return False
     
     return True
 
 def main():
     """הרצה עצמאית"""
-    print("🤖 Trading Project 002 - Automation Server")
+    print("Trading Project 002 - Automation Server")
     print("=" * 50)
     
     # בדוק תלויות
@@ -243,7 +243,7 @@ def main():
     try:
         server.start_server()
     except Exception as e:
-        print(f"❌ שגיאה: {str(e)}")
+        print(f"[ERROR] שגיאה: {str(e)}")
 
 if __name__ == "__main__":
     main()

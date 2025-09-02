@@ -49,7 +49,7 @@ class ConversationUpdater:
                     'session_updated': self._get_current_session_number()
                 }, f, ensure_ascii=False, indent=2)
         except Exception as e:
-            print(f"⚠️ לא ניתן לשמור זמן עדכון: {e}")
+            print(f"[WARNING] לא ניתן לשמור זמן עדכון: {e}")
     
     def _get_last_session_time(self):
         """חילוץ זמן מהסשן האחרון בלוג"""
@@ -110,7 +110,7 @@ class ConversationUpdater:
                 activities.extend(log_activities)
                 
         except Exception as e:
-            print(f"⚠️ שגיאה בסריקת היסטוריה: {e}")
+            print(f"[WARNING] שגיאה בסריקת היסטוריה: {e}")
         
         return self._filter_relevant_activities(activities)
     
@@ -138,7 +138,7 @@ class ConversationUpdater:
             return recent_lines
             
         except Exception as e:
-            print(f"⚠️ לא ניתן לקרוא היסטוריית PowerShell: {e}")
+            print(f"[WARNING] לא ניתן לקרוא היסטוריית PowerShell: {e}")
             return []
     
     def _parse_powershell_activities(self, history_lines):
@@ -282,7 +282,7 @@ class ConversationUpdater:
 2. **ניהול קבצים** - זוהו שינויים בקבצי הפרויקט
 3. **תיעוד וארגון** - עדכון יומן השיחות האוטומטי
 
-### ✅ **הישגים שזוהו:**
+### [SUCCESS] **הישגים שזוהו:**
 {self._format_achievements(achievements)}
 
 ### 🔍 **שינויים בקבצים:**
@@ -442,29 +442,29 @@ class ConversationUpdater:
 
 ---
 
-**📝 עודכן:** {datetime.now().strftime("%d בספטמבר %Y, %H:%M")}  
+**[UPDATE] עודכן:** {datetime.now().strftime("%d בספטמבר %Y, %H:%M")}  
 **🔄 סטטוס:** פעיל - מערכת עדכון אוטומטית
 """
     
     def run_conversation_update(self):
         """הרצת עדכון מלא של יומן השיחות"""
-        print(f"🗣️ מתחיל עדכון יומן שיחות - Trading Project 002")
-        print(f"📅 {datetime.now().strftime('%d בספטמבר %Y, %H:%M')}")
-        print(f"⏰ עדכון אחרון: {self.last_update_time.strftime('%d/%m/%Y %H:%M')}")
+        print(f"[CONV] מתחיל עדכון יומן שיחות - Trading Project 002")
+        print(f"[DATE] {datetime.now().strftime('%d בספטמבר %Y, %H:%M')}")
+        print(f"עדכון אחרון: {self.last_update_time.strftime('%d/%m/%Y %H:%M')}")
         print("=" * 50)
         
         # סרוק פעילויות חדשות
-        print("🔍 סורק פעילות בטרמינל...")
+        print("סורק פעילות בטרמינל...")
         activities = self.scan_terminal_history()
         
         if not activities:
-            print("ℹ️ לא נמצאו פעילויות חדשות מאז העדכון האחרון")
+            print("[INFO] לא נמצאו פעילויות חדשות מאז העדכון האחרון")
             return {'success': True, 'new_activities': 0}
         
         print(f"📄 נמצאו {len(activities)} פעילויות חדשות")
         
         # יצור סשן חדש
-        print("📝 יוצר סשן חדש ביומן...")
+        print("[UPDATE] יוצר סשן חדש ביומן...")
         session_content = self.create_new_session(activities)
         
         # עדכן יומן השיחות
@@ -473,7 +473,7 @@ class ConversationUpdater:
             self._save_last_update_time()
             
             print("=" * 50)
-            print(f"✅ יומן השיחות עודכן בהצלחה!")
+            print(f"[SUCCESS] יומן השיחות עודכן בהצלחה!")
             print(f"📋 פעילויות שנמצאו: {len(activities)}")
             
             return {
@@ -492,7 +492,7 @@ def main():
     if result['success']:
         print(f"\n🎉 עדכון יומן השיחות הושלם בהצלחה!")
     else:
-        print(f"\n❌ נכשל בעדכון יומן השיחות")
+        print(f"\n[ERROR] נכשל בעדכון יומן השיחות")
     
     return result
 

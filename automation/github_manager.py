@@ -44,7 +44,7 @@ class GitHubManager:
             with open(self.config_file, 'w', encoding='utf-8') as f:
                 json.dump(config_data, f, ensure_ascii=False, indent=2)
         except Exception as e:
-            print(f"⚠️ לא ניתן לשמור הגדרות: {e}")
+            print(f"לא ניתן לשמור הגדרות: {e}")
     
     def check_git_setup(self):
         """בדיקת תקינות Git"""
@@ -70,16 +70,16 @@ class GitHubManager:
         try:
             # בדוק אם כבר יש .git
             if (self.project_root / ".git").exists():
-                print("ℹ️ Git repository כבר קיים")
+                print(" Git repository כבר קיים")
                 return True
             
-            print("🔄 מאתחל Git repository מקומי...")
+            print("[INIT] מאתחל Git repository מקומי...")
             
             # git init
             result = subprocess.run(['git', 'init'], 
                                  capture_output=True, text=True, cwd=self.project_root)
             if result.returncode != 0:
-                print(f"❌ כשל ב-git init: {result.stderr}")
+                print(f"[ERROR] כשל ב-git init: {result.stderr}")
                 return False
             
             # יצור .gitignore
@@ -88,11 +88,11 @@ class GitHubManager:
             # הגדרת משתמש ברירת מחדל (אם לא מוגדר)
             self._setup_git_user()
             
-            print("✅ Git repository מקומי הוקם בהצלחה")
+            print("[SUCCESS] Git repository מקומי הוקם בהצלחה")
             return True
             
         except Exception as e:
-            print(f"❌ שגיאה באתחול Git: {str(e)}")
+            print(f"[ERROR] שגיאה באתחול Git: {str(e)}")
             return False
     
     def _create_gitignore(self):
@@ -146,7 +146,7 @@ config/secrets.json
                 f.write(gitignore_content)
             print("📄 נוצר קובץ .gitignore")
         except Exception as e:
-            print(f"⚠️ לא ניתן ליצור .gitignore: {e}")
+            print(f"[WARNING] לא ניתן ליצור .gitignore: {e}")
     
     def _setup_git_user(self):
         """הגדרת משתמש Git ברירת מחדל"""
@@ -171,7 +171,7 @@ config/secrets.json
             return False, "לא נמצא GitHub token - נדרש לאוטנטיקציה"
         
         try:
-            print(f"🔄 יוצר repository: {self.repo_name}")
+            print(f"[INIT] יוצר repository: {self.repo_name}")
             
             # נתונים ליצירת repository
             repo_data = {
@@ -206,7 +206,7 @@ config/secrets.json
                 }
                 self._save_config(config)
                 
-                print(f"✅ Repository נוצר בהצלחה: {repo_info['html_url']}")
+                print(f"[SUCCESS] Repository נוצר בהצלחה: {repo_info['html_url']}")
                 return True, repo_url
                 
             elif response.status_code == 422:
@@ -227,52 +227,52 @@ config/secrets.json
             if result.returncode == 0:
                 current_origin = result.stdout.strip()
                 if repo_url in current_origin:
-                    print("ℹ️ Remote origin כבר מוגדר נכון")
+                    print(" Remote origin כבר מוגדר נכון")
                     return True
                 else:
                     # עדכן origin קיים
                     subprocess.run(['git', 'remote', 'set-url', 'origin', repo_url], 
                                  cwd=self.project_root)
-                    print("🔄 עודכן remote origin")
+                    print("[INIT] עודכן remote origin")
             else:
                 # הוסף origin חדש
                 result = subprocess.run(['git', 'remote', 'add', 'origin', repo_url], 
                                      capture_output=True, text=True, cwd=self.project_root)
                 if result.returncode != 0:
-                    print(f"❌ כשל בהוספת remote: {result.stderr}")
+                    print(f"[ERROR] כשל בהוספת remote: {result.stderr}")
                     return False
-                print("✅ נוסף remote origin")
+                print("[SUCCESS] נוסף remote origin")
             
             return True
             
         except Exception as e:
-            print(f"❌ שגיאה בהגדרת remote: {str(e)}")
+            print(f"[ERROR] שגיאה בהגדרת remote: {str(e)}")
             return False
     
     def create_initial_commit(self):
         """יצירת commit ראשוני"""
         try:
-            print("📋 יוצר commit ראשוני...")
+            print("[COMMIT] יוצר commit ראשוני...")
             
             # git add .
             result = subprocess.run(['git', 'add', '.'], 
                                  capture_output=True, text=True, cwd=self.project_root)
             if result.returncode != 0:
-                print(f"❌ כשל ב-git add: {result.stderr}")
+                print(f"[ERROR] כשל ב-git add: {result.stderr}")
                 return False
             
             # בדוק אם יש משהו לcommit
             result = subprocess.run(['git', 'status', '--porcelain'], 
                                  capture_output=True, text=True, cwd=self.project_root)
             if not result.stdout.strip():
-                print("ℹ️ אין שינויים לcommit")
+                print(" אין שינויים לcommit")
                 return True
             
             # יצור commit message
             commit_msg = f"""🚀 Initial commit - Trading Project 002
 
 📊 Statistical Trading Analysis System
-📅 נוצר: {datetime.now().strftime("%d בספטמבר %Y")}
+[DATE] נוצר: {datetime.now().strftime("%d בספטמבר %Y")}
 🎯 מטרה: מערכת ניתוח סטטיסטי לנתוני MSTR
 
 🤖 Generated with Claude Code Automation
@@ -282,20 +282,20 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
             result = subprocess.run(['git', 'commit', '-m', commit_msg], 
                                  capture_output=True, text=True, cwd=self.project_root)
             if result.returncode != 0:
-                print(f"❌ כשל ב-git commit: {result.stderr}")
+                print(f"[ERROR] כשל ב-git commit: {result.stderr}")
                 return False
             
-            print("✅ נוצר commit ראשוני")
+            print("[SUCCESS] נוצר commit ראשוני")
             return True
             
         except Exception as e:
-            print(f"❌ שגיאה ביצירת commit: {str(e)}")
+            print(f"[ERROR] שגיאה ביצירת commit: {str(e)}")
             return False
     
     def push_to_github(self):
         """push לrepository ב-GitHub"""
         try:
-            print("⬆️ מבצע push ל-GitHub...")
+            print("[PUSH] מבצע push ל-GitHub...")
             
             # git push -u origin main
             result = subprocess.run(['git', 'push', '-u', 'origin', 'main'], 
@@ -307,20 +307,20 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
                                      capture_output=True, text=True, cwd=self.project_root)
                 
                 if result.returncode != 0:
-                    print(f"❌ כשל ב-git push: {result.stderr}")
+                    print(f"[ERROR] כשל ב-git push: {result.stderr}")
                     return False
             
-            print("✅ הפרויקט הועלה ל-GitHub בהצלחה!")
+            print("[SUCCESS] הפרויקט הועלה ל-GitHub בהצלחה!")
             return True
             
         except Exception as e:
-            print(f"❌ שגיאה ב-push: {str(e)}")
+            print(f"[ERROR] שגיאה ב-push: {str(e)}")
             return False
     
     def sync_with_github(self):
         """סינכרון מלא עם GitHub"""
         try:
-            print("📋 יוצר commit חדש...")
+            print("[COMMIT] יוצר commit חדש...")
             
             # git add .
             subprocess.run(['git', 'add', '.'], cwd=self.project_root)
@@ -330,14 +330,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
                                  capture_output=True, text=True, cwd=self.project_root)
             
             if not result.stdout.strip():
-                print("ℹ️ אין שינויים חדשים לsync")
+                print(" אין שינויים חדשים לsync")
                 return True
             
             # יצור commit message מותאם
             timestamp = datetime.now().strftime("%d/%m/%Y %H:%M")
             commit_msg = f"""📝 Automatic sync - {timestamp}
 
-🔄 עדכון אוטומטי של הפרויקט
+[INIT] עדכון אוטומטי של הפרויקט
 📊 כולל עדכוני תיעוד וקבצי HTML
 🤖 בוצע על ידי מערכת האוטומציה
 
@@ -354,48 +354,48 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
                                      capture_output=True, text=True, cwd=self.project_root)
                 
                 if result.returncode == 0:
-                    print("✅ סינכרון עם GitHub הושלם בהצלחה!")
+                    print("[SUCCESS] סינכרון עם GitHub הושלם בהצלחה!")
                     return True
                 else:
-                    print(f"⚠️ commit נוצר אך push נכשל: {result.stderr}")
+                    print(f"[WARNING] commit נוצר אך push נכשל: {result.stderr}")
                     return False
             else:
-                print(f"❌ כשל ביצירת commit: {result.stderr}")
+                print(f"[ERROR] כשל ביצירת commit: {result.stderr}")
                 return False
                 
         except Exception as e:
-            print(f"❌ שגיאה בסינכרון: {str(e)}")
+            print(f"[ERROR] שגיאה בסינכרון: {str(e)}")
             return False
     
     def run_full_github_setup(self):
         """הרצת תהליך מלא של הגדרת GitHub"""
-        print(f"🔗 מתחיל הגדרת GitHub - Trading Project 002")
-        print(f"📅 {datetime.now().strftime('%d בספטמבר %Y, %H:%M')}")
+        print(f"מתחיל הגדרת GitHub - Trading Project 002")
+        print(f"[DATE] {datetime.now().strftime('%d בספטמבר %Y, %H:%M')}")
         print("=" * 50)
         
         # 1. בדוק Git מקומי
-        print("🔍 בודק הגדרת Git מקומית...")
+        print("[CHECK] בודק הגדרת Git מקומית...")
         git_ok, git_msg = self.check_git_setup()
         
         if not git_ok:
             if "אינה Git repository" in git_msg:
-                print("🔄 מאתחל Git repository...")
+                print("[INIT] מאתחל Git repository...")
                 if not self.init_local_git():
                     return {'success': False, 'error': 'כשל באתחול Git'}
             else:
                 return {'success': False, 'error': git_msg}
         
         # 2. נסה ליצור repository ב-GitHub (אם לא קיים)
-        print("🔍 בודק/יוצר GitHub repository...")
+        print("[CHECK] בודק/יוצר GitHub repository...")
         repo_created, repo_url = self.create_github_repository()
         
         if not repo_created and "כבר קיים" not in str(repo_url):
-            print(f"⚠️ יצירת repository נכשלה: {repo_url}")
+            print(f"[WARNING] יצירת repository נכשלה: {repo_url}")
             # המשך עם repository קיים אם יש
             config_data = self._load_existing_config()
             if config_data and config_data.get('repo_url'):
                 repo_url = config_data['repo_url']
-                print(f"📂 משתמש ב-repository קיים: {repo_url}")
+                print(f"[REPO] משתמש ב-repository קיים: {repo_url}")
             else:
                 return {'success': False, 'error': str(repo_url)}
         
@@ -413,7 +413,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
         
         print("=" * 50)
         print("🎉 הגדרת GitHub הושלמה בהצלחה!")
-        print(f"🔗 Repository URL: {repo_url.replace('.git', '')}")
+        print(f"[GITHUB] Repository URL: {repo_url.replace('.git', '')}")
         
         return {
             'success': True,
@@ -437,8 +437,8 @@ def main():
     
     # בדוק אם יש token
     if not manager.github_token:
-        print("❌ לא נמצא GitHub token!")
-        print("💡 הגדר GitHub token באחת מהדרכים הבאות:")
+        print("[ERROR] לא נמצא GitHub token!")
+        print("[INFO] הגדר GitHub token באחת מהדרכים הבאות:")
         print("1. משתנה סביבה: set GITHUB_TOKEN=your_token")
         print("2. קובץ הגדרות: automation/github_config.json")
         return {'success': False, 'error': 'חסר GitHub token'}
@@ -449,7 +449,7 @@ def main():
     if result['success']:
         print(f"\n🎉 GitHub sync הושלם בהצלחה!")
     else:
-        print(f"\n❌ נכשל ב-GitHub sync: {result.get('error')}")
+        print(f"\n[ERROR] נכשל ב-GitHub sync: {result.get('error')}")
     
     return result
 

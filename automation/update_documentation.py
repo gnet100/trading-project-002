@@ -66,12 +66,12 @@ class DocumentationUpdater:
             with open(html_file, 'w', encoding='utf-8') as f:
                 f.write(full_html)
             
-            print(f"✓ עודכן: {html_file.name} מתוך {md_file.name}")
+            print(f"[SUCCESS] עודכן: {html_file.name} מתוך {md_file.name}")
             self.updated_files.append(html_file.name)
             return True
             
         except Exception as e:
-            print(f"✗ שגיאה בעדכון {md_file.name}: {str(e)}")
+            print(f"[ERROR] שגיאה בעדכון {md_file.name}: {str(e)}")
             return False
     
     def _extract_title(self, md_content, default_title):
@@ -332,16 +332,16 @@ class DocumentationUpdater:
                 <a href="conversation_log.html" class="quick-btn">💬 יומן שיחות</a>
                 <a href="tasks.html" class="quick-btn">🎯 משימות</a>
                 <a href="database.html" class="quick-btn">🗃️ מאגר נתונים</a>
-                <a href="strategy.html" class="quick-btn">🚀 אסטרטגיה</a>
+                <a href="strategy.html" class="quick-btn">[DOCS] אסטרטגיה</a>
                 <a href="statistics.html" class="quick-btn">📊 סטטיסטיקות</a>
                 <a href="interactive_brokers.html" class="quick-btn">🔗 IB חיבור</a>
                 <a href="file_map.html" class="quick-btn">🗂️ מפת קבצים</a>
-                <a href="rtl_editor.html" class="quick-btn">📝 RTL Editor</a>
+                <a href="rtl_editor.html" class="quick-btn">[UPDATE] RTL Editor</a>
             </div>
         </div>
         
         <div class="timestamp">
-            📅 HTML נוצר: {self.timestamp}<br>
+            [DATE] HTML נוצר: {self.timestamp}<br>
             🔄 עדכון אוטומטי מקובץ המקור<br>
             🤖 נוצר על ידי מערכת העדכון האוטומטית
         </div>
@@ -386,23 +386,23 @@ class DocumentationUpdater:
             with open(file_map_path, 'w', encoding='utf-8') as f:
                 json.dump(file_map, f, ensure_ascii=False, indent=4)
             
-            print(f"✓ עודכן file_map.json")
+            print(f"[SUCCESS] עודכן file_map.json")
             
         except Exception as e:
-            print(f"✗ שגיאה בעדכון file_map: {str(e)}")
+            print(f"[ERROR] שגיאה בעדכון file_map: {str(e)}")
     
     def run_full_update(self):
         """הרצת עדכון מלא של כל התיעוד"""
-        print(f"🚀 מתחיל עדכון תיעוד - Trading Project 002")
-        print(f"📅 {self.timestamp}")
+        print(f"[DOCS] מתחיל עדכון תיעוד - Trading Project 002")
+        print(f"[DATE] {self.timestamp}")
         print("=" * 50)
         
         # סרוק קבצי MD
         md_files = self.scan_md_files()
-        print(f"📄 נמצאו {len(md_files)} קבצי Markdown")
+        print(f"נמצאו {len(md_files)} קבצי Markdown")
         
         if not md_files:
-            print("ℹ️ לא נמצאו קבצי MD לעדכון")
+            print("[INFO] לא נמצאו קבצי MD לעדכון")
             return {'success': True, 'files_updated': 0}
         
         # עדכן כל קובץ שזקוק לכך
@@ -412,14 +412,14 @@ class DocumentationUpdater:
                 if self.md_to_html(md_file):
                     updated_count += 1
             else:
-                print(f"⏭️ מדולג: {md_file.name} (עדכני)")
+                print(f"[SKIP] מדולג: {md_file.name} (עדכני)")
         
         # עדכן file_map
         self.update_file_map()
         
         print("=" * 50)
-        print(f"✅ הושלם! עודכנו {updated_count} קבצים")
-        print(f"📋 רשימת קבצים שעודכנו: {', '.join(self.updated_files) if self.updated_files else 'אף אחד'}")
+        print(f"[SUCCESS] הושלם! עודכנו {updated_count} קבצים")
+        print(f"רשימת קבצים שעודכנו: {', '.join(self.updated_files) if self.updated_files else 'אף אחד'}")
         
         return {
             'success': True,
@@ -435,7 +435,7 @@ def main():
     if result['success']:
         print(f"\n🎉 עדכון התיעוד הושלם בהצלחה!")
     else:
-        print(f"\n❌ נכשל בעדכון התיעוד")
+        print(f"\n[ERROR] נכשל בעדכון התיעוד")
     
     return result
 
